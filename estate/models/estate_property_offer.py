@@ -20,7 +20,7 @@ class EstatePropertyOffer(models.Model):
         copy=False,
         default=False,
     )
-
+    
     # Relational
     partner_id = fields.Many2one("res.partner", string="Partner", required=True)
     property_id = fields.Many2one("estate.property", string="Property", required=True)

@@ -85,10 +85,10 @@ class EstateProperty(models.Model):
         return self.write({"state": "canceled"})
 
     def action_send_email(self):
-        template = self.env.ref("estate.simple_example_email_template")
+        template = self.env.ref("estate.example_email_template")
 
         email_values = {
-            "email_to": "onesinustamba@gmail.com,onesinus231@gmail.com",
+            "email_to": "mohammedaladhary@gmail.com",
             "email_cc": False,
             "auto_delete": True,
             "recipient_ids": [],

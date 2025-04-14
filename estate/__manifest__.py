@@ -1,7 +1,10 @@
 {
     'name': "Estate",
     'version': '17.0.0.1.0',
-    'depends': ['base'],
+    'depends': [
+        'base',
+        'mail',
+    ],
     'author': "Mohammed Abdullah",
     'category': 'App',
     'application': True,
@@ -11,7 +14,6 @@
         'security/ir.model.access.csv',
 
         # templates
-        # 'data/templates/example_email_template.xml',
 
         # views     #order matter!!
         'views/estate_property.xml',
@@ -23,6 +25,7 @@
 
         # Load initial Data
         'data/estate.property.csv',
+        'data/example_email_template.xml',
 
         # schedulers
         'views/schedulers/estate_property_scheduler.xml',
