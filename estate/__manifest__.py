@@ -13,8 +13,6 @@
         # security
         'security/ir.model.access.csv',
 
-        # templates
-
         # views     #order matter!!
         'views/estate_property.xml',
         'views/estate_property_type.xml',
@@ -23,15 +21,14 @@
         'views/users.xml',
         'views/menu.xml',
 
-        # Load initial Data
+        # Load Initial Data
         'data/estate.property.csv',
-        'data/example_email_template.xml',
 
         # schedulers
         'views/schedulers/estate_property_scheduler.xml',
 
         # Reports
         'reports/output_pdf/estate_property.xml',
-
+        'reports/output_email/example_email_template.xml',
     ]
 }
