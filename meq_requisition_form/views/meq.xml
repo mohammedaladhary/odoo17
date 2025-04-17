@@ -18,7 +18,7 @@
                             <group>
                                 <field name="request_date" readonly="1"/>
                                 <field name="req_by" readonly="1"/>
-                                <field name="consumption_month"/>
+                                <field name="Equipment_month"/>
                                 <field name="quantity"/>
                                 <field name="uom"/>
                                 <field name="cost"/>

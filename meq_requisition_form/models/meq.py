@@ -26,7 +26,7 @@ class MeqRequest(models.Model):
          ('instrument', 'Instrument'), ('na', 'Not Applicable'), ('other', 'Others')], 'Item Type')
 
     urgency = fields.Selection(AVAILABLE_PRIORITIES, string='Urgency')
-    consumption_month = fields.Float('Expected Monthly Consumption')
+    Equipment_month = fields.Float('Expected Monthly Equipments')
     quantity = fields.Float('Quantity Required')
     uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')], 'Unit of Measure', )
     cost = fields.Float('Estimated Cost per Unit')
@@ -35,7 +35,7 @@ class MeqRequest(models.Model):
     description = fields.Html('Item Description')
     attachment = fields.Binary('Supplementary document')
     state = fields.Selection([('draft', 'Draft'), ('submit', 'Pending HOD Approval'),
-                            ('committee_approve', 'Pending Consumable Committee Approval'),
+                            ('committee_approve', 'Pending Equipment Committee Approval'),
                             ('store_approve', 'Pending Main Store Approval'), ('approve', 'Completed'),
                             ('cancel', 'Cancel'), ('reject', 'Rejected')],
                             string='Status', default='draft', tracking=True, copy=False)
