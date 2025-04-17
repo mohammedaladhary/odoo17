@@ -4,17 +4,20 @@
     # any module necessary for this one to work correctly
     'depends': [
         'base',
+        'hr',
+        'mail'
     ],
     'author': "Sqcccrc",
     'category': 'App',
     'application': True,
     'data': [
-
         # security
         'security/ir.model.access.csv',
 
-        # views     #order matter!!
+        # sequence
+        'data/meq_sequence.xml',
+
+        # views     # order matters!!
         'views/meq.xml',
     ]
 }
-
