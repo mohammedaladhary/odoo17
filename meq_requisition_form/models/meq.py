@@ -1,6 +1,6 @@
 from datetime import datetime
-from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo import models, fields, api, re
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools.translate import _
 
 AVAILABLE_PRIORITIES = [
@@ -29,8 +29,8 @@ class MeqRequest(models.Model):
     Equipment_month = fields.Float('Expected Monthly Equipments')
     quantity = fields.Float('Quantity Required')
     uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')], 'Unit of Measure', )
-    cost = fields.Monetary('Estimated Cost per Unit', currency_field='currency_id', digits=(16, 3))
-    cost_subtotal = fields.Monetary('Total Cost', compute="compute_cost_subtotal", currency_field='currency_id', digits=(16, 3))
+    cost = fields.Float('Estimated Cost per Unit')
+    cost_subtotal = fields.Float('Total Cost', compute="compute_cost_subtotal")
     reason = fields.Text('Reason for Request')
     description = fields.Html('Item Description')
     attachment = fields.Binary('Supplementary document')
@@ -43,13 +43,6 @@ class MeqRequest(models.Model):
     hod_comment = fields.Text('HOD Comment')
     committee_comment = fields.Text('Committee Comment', readonly=False, copy=False)
     committee_status = fields.Selection([('review', 'Under Review. Requested More Info.')], 'Committee Status')
-
-    currency_id = fields.Many2one(
-        'res.currency',
-        string="Currency",
-        default=lambda self: self.env.ref('base.OMR'),
-        readonly=True
-    )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -86,3 +79,10 @@ class MeqRequest(models.Model):
     def compute_cost_subtotal(self):
         for rec in self:
             rec.cost_subtotal = rec.cost * rec.quantity
+
+    @api.constrains('contact')
+    def _check_contact_number(self):
+        for rec in self:
+            if rec.contact:
+                if not re.match(r'^[97]\d{7}$', rec.contact):
+                    raise ValidationError("Contact number must start with 9 or 7 and be exactly 8 digits long.")

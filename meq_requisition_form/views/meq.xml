@@ -66,6 +66,6 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="menu_meq_root" name="MEQ"/>
-        <menuitem id="menu_meq_request" name="Requests" parent="menu_meq_root" action="action_meq_request"/>
+        <menuitem id="menu_meq_request" name="Equipment Requests" parent="menu_meq_root" action="action_meq_request"/>
     </data>
 </odoo>
