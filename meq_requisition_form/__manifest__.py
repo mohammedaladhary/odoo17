@@ -16,6 +16,7 @@
 
         # sequence
         'data/meq_sequence.xml',
+        'data/currency_data.xml',
 
         # views     # order matters!!
         'views/meq.xml',

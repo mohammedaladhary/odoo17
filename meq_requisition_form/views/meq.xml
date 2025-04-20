@@ -22,11 +22,11 @@
                                 <field name="quantity"/>
                                 <field name="uom"/>
                                 <field name="cost"/>
-                                <field name="cost_subtotal" readonly="1"/>
+                                <field name="cost_subtotal"/>
                             </group>
                             <group>
                                 <field name="contact"/>
-<!--                                <field name="dept_id" options='{"no_open": True}'/>-->
+                                <field name="dept_id" options='{"no_open": True}'/>
                                 <field name="product_name"/>
                                 <field name="item_code"/>
                                 <field name="item_type"/>
@@ -61,7 +61,7 @@
             </field>
         </record>
         <record id="action_meq_request" model="ir.actions.act_window">
-            <field name="name">MEQ Requests</field>
+            <field name="name">New Equipment Creation</field>
             <field name="res_model">meq.request</field>
             <field name="view_mode">tree,form</field>
         </record>
