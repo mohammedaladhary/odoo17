@@ -28,9 +28,9 @@ class MeqRequest(models.Model):
     urgency = fields.Selection(AVAILABLE_PRIORITIES, string='Urgency')
     Equipment_month = fields.Float('Expected Monthly Equipments')
     quantity = fields.Float('Quantity Required')
-    uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')], 'Unit of Measure', )
     cost = fields.Float('Estimated Cost per Unit')
     cost_subtotal = fields.Float('Total Cost', compute="compute_cost_subtotal")
+    uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')], 'Unit of Measure', )
     reason = fields.Text('Reason for Request')
     description = fields.Html('Item Description')
     attachment = fields.Binary('Supplementary document')
@@ -86,3 +86,10 @@ class MeqRequest(models.Model):
             if rec.contact:
                 if not re.match(r'^[97]\d{7}$', rec.contact):
                     raise ValidationError("Contact number must start with 9 or 7 and be exactly 8 digits long.")
+
+    @api.constrains('Equipment_month', 'quantity', 'cost', 'cost_subtotal')
+    def _check_non_negative_fields(self):
+        for rec in self:
+            if rec.Equipment_month < 0 or rec.quantity < 0 or rec.cost < 0 or rec.cost_subtotal < 0:
+                raise ValidationError(
+                    "Fields 'Expected Monthly Equipments', 'Quantity Required', 'Estimated Cost per Unit', and 'Total Cost' cannot be less than zero.")

@@ -18,27 +18,32 @@
                             <group>
                                 <field name="request_date" readonly="1"/>
                                 <field name="req_by" readonly="1"/>
-                                <field name="Equipment_month"/>
-                                <field name="quantity"/>
-                                <field name="uom"/>
-                                <field name="cost"/>
-                                <field name="cost_subtotal"/>
                             </group>
                             <group>
                                 <field name="contact"/>
                                 <field name="dept_id" options='{"no_open": True}'/>
-                                <field name="product_name"/>
-                                <field name="item_code"/>
-                                <field name="item_type"/>
-                                <field name="urgency"/>
                             </group>
                         </group>
                         <notebook>
-                            <page invisible="state == 'draft'" string="COMMENTS">
+                            <page string="ITEM DETAILS">
                                 <group>
-                                    <field invisible="state == 'draft'" name="hod_comment" readonly="state != 'submit'"/>
-                                    <field invisible="state == 'draft'" name="committee_comment" readonly="state != 'committee_approve'"/>
-                                    <field invisible="state == 'draft'" name="committee_status" readonly="state != 'committee_approve'"/>
+                                    <field name="product_name"/>
+                                    <field name="item_code"/>
+                                    <field name="item_type"/>
+                                    <field name="urgency"/><field name="Equipment_month"/>
+                                    <field name="quantity"/>
+                                    <field name="uom"/>
+                                    <field name="cost"/>
+                                    <field name="cost_subtotal" readonly="1"/>
+
+                                </group>
+                            </page>
+
+                            <page string="COMMENTS" invisible="state == 'draft'">
+                                <group>
+                                    <field name="hod_comment" invisible="state == 'draft'" readonly="state != 'submit'"/>
+                                    <field name="committee_comment" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
+                                    <field name="committee_status" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
                                 </group>
                             </page>
                         </notebook>
@@ -61,11 +66,11 @@
             </field>
         </record>
         <record id="action_meq_request" model="ir.actions.act_window">
-            <field name="name">New Equipment Creation</field>
+            <field name="name">MEQ Requests</field>
             <field name="res_model">meq.request</field>
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="menu_meq_root" name="MEQ"/>
-        <menuitem id="menu_meq_request" name="Equipment Requests" parent="menu_meq_root" action="action_meq_request"/>
+        <menuitem id="menu_meq_request" name="Requests" parent="menu_meq_root" action="action_meq_request"/>
     </data>
 </odoo>
