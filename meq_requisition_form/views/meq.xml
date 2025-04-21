@@ -27,18 +27,25 @@
                         <notebook>
                             <page string="ITEM DETAILS">
                                 <group>
-                                    <field name="product_name"/>
-                                    <field name="item_code"/>
-                                    <field name="item_type"/>
-                                    <field name="urgency"/><field name="Equipment_month"/>
-                                    <field name="quantity"/>
-                                    <field name="uom"/>
-                                    <field name="cost"/>
+                                    <group>
+                                        <field name="product_name"/>
+                                        <field name="item_code"/>
+                                        <field name="item_type"/>
+                                        <field name="urgency"/>
+                                    </group>
+                                    <group>
+                                        <field name="uom"/>
+                                        <field name="Equipment_month"/>
+                                        <field name="cost"/>
+                                        <field name="quantity"/>
+                                    </group>
+                                </group>
+                                <group>
                                     <field name="cost_subtotal" readonly="1"/>
-
                                 </group>
                             </page>
-
+                        </notebook>
+                        <notebook>
                             <page string="COMMENTS" invisible="state == 'draft'">
                                 <group>
                                     <field name="hod_comment" invisible="state == 'draft'" readonly="state != 'submit'"/>
@@ -48,6 +55,11 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                    </div>
                 </form>
             </field>
         </record>

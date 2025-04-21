@@ -11,6 +11,7 @@ AVAILABLE_PRIORITIES = [
 
 class MeqRequest(models.Model):
     _name = 'meq.request'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Meq Request'
 
     name = fields.Char('Name')
