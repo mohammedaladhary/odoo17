@@ -94,3 +94,11 @@ class MeqRequest(models.Model):
             if rec.Equipment_month < 0 or rec.quantity < 0 or rec.cost < 0 or rec.cost_subtotal < 0:
                 raise ValidationError(
                     "Fields 'Expected Monthly Equipments', 'Quantity Required', 'Estimated Cost per Unit', and 'Total Cost' cannot be less than zero.")
+
+    def equipment_xlsx_report(self):
+        ids = ','.join(str(x.id) for x in self)
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/equipment/excel/report/{ids}',
+            'target': 'new',
+        }

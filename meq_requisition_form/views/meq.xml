@@ -68,6 +68,9 @@
             <field name="model">meq.request</field>
             <field name="arch" type="xml">
                 <tree>
+                    <header>
+                        <button name="equipment_xlsx_report" type="object" string="Print Excel Report" class="btn-primary"/>
+					</header>
                     <field name="name"/>
                     <field name="dept_id" options='{"no_open": True}'/>
                     <field name="request_date"/>
@@ -83,6 +86,7 @@
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="menu_meq_root" name="MEQ"/>
-        <menuitem id="menu_meq_request" name="Requests" parent="menu_meq_root" action="action_meq_request"/>
+        <menuitem id="menu_meq_item_creation" name="Equipment Item Creation" parent="menu_meq_root"/>
+        <menuitem id="menu_meq_requests" name="Equipment Requests" parent="menu_meq_item_creation" action="action_meq_request"/>
     </data>
 </odoo>
