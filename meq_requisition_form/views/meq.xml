@@ -81,7 +81,7 @@
             </field>
         </record>
         <record id="action_meq_request" model="ir.actions.act_window">
-            <field name="name">MEQ Requests</field>
+            <field name="name">New Equipment Creation</field>
             <field name="res_model">meq.request</field>
             <field name="view_mode">tree,form</field>
         </record>
