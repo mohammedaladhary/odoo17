@@ -34,7 +34,7 @@ class MeqRequest(models.Model):
     uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')], 'Unit of Measure', )
     reason = fields.Text('Reason for Request')
     description = fields.Text('Item Description')
-    attachment = fields.Binary('Supplementary document')
+    attachment = fields.Binary('Supplementary Document')
     state = fields.Selection([('draft', 'Draft'), ('submit', 'Pending HOD Approval'),
                             ('committee_approve', 'Pending Equipment Committee Approval'),
                             ('store_approve', 'Pending Main Store Approval'), ('approve', 'Completed'),
@@ -46,16 +46,13 @@ class MeqRequest(models.Model):
     committee_status = fields.Selection([('review', 'Under Review. Requested More Info.')], 'Committee Status')
     usage_location = fields.Char('Location of Usage')
 
-    backup_available = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                        'Any similar/Back-up equipment available (Manufacturer/Model)?')
+    backup_available = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Any similar/Back-up equipments available?')
     backup_details = fields.Text('Details of Back-up Equipment')
 
-    replaces_existing = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                         'Does this replace any existing MEQ currently in use in the hospital?')
+    replaces_existing = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Does this replace any current existing MEQ?')
     replaces_details = fields.Text('Details of Replaced Equipment')
 
-    additional_doc_attached = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                               'Any additional document attached (Details to be briefed)?')
+    additional_doc_attached = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Any additional document attached?')
     additional_doc_details = fields.Text('Additional Document Details')
 
     urgency_justification = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Urgency and Justification?')
@@ -76,8 +73,7 @@ class MeqRequest(models.Model):
     patient_usage = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Expected Patient Usage/Month?')
     usage_details = fields.Text('Expected Monthly Patient Usage')
 
-    used_in_other_departments = fields.Selection([('yes', 'Yes'), ('no', 'No')],
-                                                 'Can this new MEQ be used in another department?')
+    used_in_other_departments = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Can this MEQ be used in other departments?')
     departments_details = fields.Text('Other Departments')
 
     other_factors = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Any other factors to be considered?')
@@ -88,9 +84,9 @@ class MeqRequest(models.Model):
     eu_date = fields.Date("End User Date")
     eu_contact = fields.Char("End User Contact no.")
 
-    eu_hod_name = fields.Char("End User HOD Name")
-    eu_hod_signature = fields.Char("End User HOD Signature")
-    eu_hod_date = fields.Date("End User HOD Date")
+    eu_hod_name = fields.Char("HOD Name")
+    eu_hod_signature = fields.Char("HOD Signature")
+    eu_hod_date = fields.Date("HOD Date")
 
     submitted_to_committee = fields.Selection([('yes', 'Yes'),('no', 'No')], string="Submitted to Equipment Committee?")
 

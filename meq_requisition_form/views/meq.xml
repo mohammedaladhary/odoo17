@@ -25,7 +25,7 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Equipment Details">
+                            <page string="Medical Equipment Detail">
                                 <group>
                                     <group>
                                         <field name="product_name"/>
@@ -52,46 +52,37 @@
                                     </group>
                                 </group>
                             </page>
-                            <page string="Additional Equipment Details">
+                            <page string="Additional Equipment Detail">
                                 <group>
                                     <group>
                                         <field name="backup_available"/>
                                         <field name="backup_details" invisible="backup_available != 'yes'" required="backup_available == 'yes'"/>
-
                                         <field name="replaces_existing"/>
                                         <field name="replaces_details" invisible="replaces_existing != 'yes'" required="replaces_existing == 'yes'"/>
-
                                         <field name="additional_doc_attached"/>
                                         <field name="additional_doc_details" invisible="additional_doc_attached != 'yes'" required="additional_doc_attached == 'yes'"/>
-
                                         <field name="urgency_justification"/>
                                         <field name="urgency_details" invisible="urgency_justification != 'yes'" required="urgency_justification == 'yes'"/>
-
                                         <field name="manpower_required"/>
                                         <field name="manpower_details" invisible="manpower_required != 'yes'" required="manpower_required == 'yes'"/>
-                                    </group>
-                                    <group>
                                         <field name="space_required"/>
                                         <field name="space_details" invisible="space_required != 'yes'" required="space_required == 'yes'"/>
-
+                                    </group>
+                                    <group>
                                         <field name="accessories_required"/>
                                         <field name="accessories_details" invisible="accessories_required != 'yes'" required="accessories_required == 'yes'"/>
-
                                         <field name="consumables_required"/>
                                         <field name="consumables_details" invisible="consumables_required != 'yes'" required="consumables_required == 'yes'"/>
-
                                         <field name="patient_usage"/>
                                         <field name="usage_details" invisible="patient_usage != 'yes'" required="patient_usage == 'yes'"/>
-
                                         <field name="used_in_other_departments"/>
                                         <field name="departments_details" invisible="used_in_other_departments != 'yes'" required="used_in_other_departments == 'yes'"/>
-
                                         <field name="other_factors"/>
                                         <field name="factors_details" invisible="other_factors != 'yes'" required="other_factors == 'yes'"/>
                                     </group>
                                 </group>
                             </page>
-                            <page string="Sign-off Details">
+                            <page string="Sign-off Detail">
                                 <group>
                                     <group string="End User">
                                         <field name="eu_name"/>
@@ -99,7 +90,7 @@
                                         <field name="eu_signature"/>
                                         <field name="eu_date"/>
                                     </group>
-                                    <group string="End User HOD">
+                                    <group string="For HOD Only">
                                         <field name="eu_hod_name"/>
                                         <field name="eu_hod_signature"/>
                                         <field name="eu_hod_date"/>
@@ -107,7 +98,7 @@
                                     </group>
                                 </group>
                             </page>
-                             <page string="Committee Submission" invisible="state == 'draft'">
+                             <page string="Committee Detail" invisible="state == 'draft'">
                                 <group>
                                     <field name="committee_comment" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
                                     <field name="committee_status" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
