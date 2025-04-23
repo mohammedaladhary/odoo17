@@ -18,7 +18,7 @@ class MeqRequest(models.Model):
     request_date = fields.Datetime('Date of Request', default=datetime.now(), readonly=True)
     req_by = fields.Many2one('res.users', 'Requested By', default=lambda self: self.env.user)
     dept_id = fields.Many2one('hr.department', 'Department')
-    contact = fields.Char('Contact Number')
+    contact = fields.Char('Contact no.')
     staff_id = fields.Char('Employee ID', compute="_compute_department", store=True)
     product_name = fields.Char('Item Name')
     item_code = fields.Char('Item Code')
@@ -33,7 +33,7 @@ class MeqRequest(models.Model):
     cost_subtotal = fields.Float('Total Cost', compute="compute_cost_subtotal")
     uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')], 'Unit of Measure', )
     reason = fields.Text('Reason for Request')
-    description = fields.Html('Item Description')
+    description = fields.Text('Item Description')
     attachment = fields.Binary('Supplementary document')
     state = fields.Selection([('draft', 'Draft'), ('submit', 'Pending HOD Approval'),
                             ('committee_approve', 'Pending Equipment Committee Approval'),
@@ -44,6 +44,55 @@ class MeqRequest(models.Model):
     hod_comment = fields.Text('HOD Comment')
     committee_comment = fields.Text('Committee Comment', readonly=False, copy=False)
     committee_status = fields.Selection([('review', 'Under Review. Requested More Info.')], 'Committee Status')
+    usage_location = fields.Char('Location of Usage')
+
+    backup_available = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                        'Any similar/Back-up equipment available (Manufacturer/Model)?')
+    backup_details = fields.Text('Details of Back-up Equipment')
+
+    replaces_existing = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                         'Does this replace any existing MEQ currently in use in the hospital?')
+    replaces_details = fields.Text('Details of Replaced Equipment')
+
+    additional_doc_attached = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                               'Any additional document attached (Details to be briefed)?')
+    additional_doc_details = fields.Text('Additional Document Details')
+
+    urgency_justification = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Urgency and Justification?')
+    urgency_details = fields.Text('Justification Details')
+
+    manpower_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Manpower Requirement?')
+    manpower_details = fields.Text('Details of Manpower Requirement')
+
+    space_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Space Requirement?')
+    space_details = fields.Text('Space Details')
+
+    accessories_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Accessories / Software’s?')
+    accessories_details = fields.Text('Accessories / Software’s Details')
+
+    consumables_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Required Consumables?')
+    consumables_details = fields.Text('Consumables Details')
+
+    patient_usage = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Expected Patient Usage/Month?')
+    usage_details = fields.Text('Expected Monthly Patient Usage')
+
+    used_in_other_departments = fields.Selection([('yes', 'Yes'), ('no', 'No')],
+                                                 'Can this new MEQ be used in another department?')
+    departments_details = fields.Text('Other Departments')
+
+    other_factors = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Any other factors to be considered?')
+    factors_details = fields.Text('Other Factors')
+
+    eu_name = fields.Char("End User Name")
+    eu_signature = fields.Char("End User Signature")
+    eu_date = fields.Date("End User Date")
+    eu_contact = fields.Char("End User Contact no.")
+
+    eu_hod_name = fields.Char("End User HOD Name")
+    eu_hod_signature = fields.Char("End User HOD Signature")
+    eu_hod_date = fields.Date("End User HOD Date")
+
+    submitted_to_committee = fields.Selection([('yes', 'Yes'),('no', 'No')], string="Submitted to Equipment Committee?")
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -81,12 +130,17 @@ class MeqRequest(models.Model):
         for rec in self:
             rec.cost_subtotal = rec.cost * rec.quantity
 
-    @api.constrains('contact')
+    @api.constrains('contact','eu_contact')
     def _check_contact_number(self):
         for rec in self:
             if rec.contact:
                 if not re.match(r'^[97]\d{7}$', rec.contact):
-                    raise ValidationError("Contact number must start with 9 or 7 and be exactly 8 digits long.")
+                    raise ValidationError(
+                        "Contact number must start with 9 or 7 and be exactly 8 digits long (Contact Number).")
+            if rec.eu_contact:
+                if not re.match(r'^[97]\d{7}$', rec.eu_contact):
+                    raise ValidationError(
+                        "Contact number must start with 9 or 7 and be exactly 8 digits long (End User Contact).")
 
     @api.constrains('Equipment_month', 'quantity', 'cost', 'cost_subtotal')
     def _check_non_negative_fields(self):
