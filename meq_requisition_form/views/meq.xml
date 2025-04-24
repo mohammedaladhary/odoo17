@@ -86,23 +86,23 @@
                                 <group>
                                     <group string="End User">
                                         <field name="eu_name"/>
-                                        <field name="eu_contact"/>
-                                        <field name="eu_signature"/>
                                         <field name="eu_date"/>
+                                        <field name="eu_signature"/>
+                                        <field name="eu_contact"/>
                                     </group>
                                     <group string="For HOD Only">
                                         <field name="eu_hod_name"/>
-                                        <field name="eu_hod_signature"/>
                                         <field name="eu_hod_date"/>
+                                        <field name="eu_hod_signature"/>
                                         <field name="hod_comment" invisible="state == 'draft'" readonly="state != 'submit'"/>
                                     </group>
                                 </group>
                             </page>
                              <page string="Committee Detail" invisible="state == 'draft'">
                                 <group>
-                                    <field name="committee_comment" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
-                                    <field name="committee_status" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
                                     <field name="submitted_to_committee" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
+                                    <field name="committee_status" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
+                                    <field name="committee_comment" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
                                 </group>
                             </page>
                         </notebook>
