@@ -1,6 +1,4 @@
 from datetime import datetime
-from email.policy import default
-
 from odoo import models, fields, api, re
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.translate import _
@@ -19,8 +17,8 @@ class MeqRequest(models.Model):
     name = fields.Char('Name')
     request_date = fields.Datetime('Date of Request', default=datetime.now(), readonly=True)
     req_by = fields.Many2one('res.users', 'Requested By', default=lambda self: self.env.user)
-    contact = fields.Char('Contact No.', default=lambda self: self.env.user.phone)
-    dept_id = fields.Many2one('hr.department', 'Department')
+    contact = fields.Char('Contact No.', default=lambda self: self.env.user.phone, readonly=True)
+    dept_id = fields.Many2one('hr.department', 'Department', compute='_compute_department', store=True, )
     staff_id = fields.Char('Employee ID', compute="_compute_department", store=True)
     product_name = fields.Char('Item Name')
     item_code = fields.Char('Item Code')
@@ -84,7 +82,7 @@ class MeqRequest(models.Model):
 
     def action_submit(self):
         if self.req_by != self.env.user:
-            raise UserError(_('only %s can submit this request') % (self.req_by.name))
+            raise UserError(_('only %s can submit this request') % self.req_by.name)
         self.state = 'submit'
         self.name = self.env['ir.sequence'].next_by_code('meq.request') or _('New')
 
@@ -111,6 +109,12 @@ class MeqRequest(models.Model):
     def compute_cost_subtotal(self):
         for rec in self:
             rec.cost_subtotal = rec.cost * rec.quantity
+
+    @api.depends('req_by')
+    def _compute_department(self):
+        for rec in self:
+            employee = rec.req_by.employee_ids[:1]
+            rec.dept_id = employee.department_id.id
 
     # @api.constrains('contact','eu_contact')
     # def _check_contact_number(self):
