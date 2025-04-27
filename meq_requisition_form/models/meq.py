@@ -18,7 +18,7 @@ class MeqRequest(models.Model):
     request_date = fields.Datetime('Date of Request', default=datetime.now(), readonly=True)
     req_by = fields.Many2one('res.users', 'Requested By', default=lambda self: self.env.user)
     contact = fields.Char('Contact No.', default=lambda self: self.env.user.phone, readonly=True)
-    dept_id = fields.Many2one('hr.department', 'Department', compute='_compute_department',store=True, readonly=False)
+    dept_id = fields.Many2one('hr.department', 'Department', compute='_compute_department',store=True, readonly=True)
     staff_id = fields.Char('Employee ID', compute="_compute_department", store=True)
     product_name = fields.Char('Item Name')
     item_code = fields.Char('Item Code')

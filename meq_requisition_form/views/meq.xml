@@ -31,7 +31,7 @@
                                         <field name="product_name"/>
                                         <field name="item_code"/>
                                         <field name="item_type"/>
-                                        <field name="urgency"/>
+                                        <field name="urgency" widget="priority"/>
                                         <field name="usage_location"/>
                                         <field name="uom"/>
                                     </group>
