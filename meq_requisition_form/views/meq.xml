@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record id="view_meq_request_form" model="ir.ui.view">
@@ -17,11 +18,11 @@
                         <group string="REQUESTER DETAILS">
                             <group>
                                 <field name="request_date" readonly="1"/>
-                                <field name="req_by" readonly="1"/>
+                                <field name="req_by" readonly="1" widget="badge"/>
                             </group>
                             <group>
                                 <field name="contact"/>
-                                <field name="dept_id" options='{"no_open": True}'/>
+                                <field name="dept_id" widget="badge"/>
                             </group>
                         </group>
                         <notebook>
@@ -82,27 +83,19 @@
                                     </group>
                                 </group>
                             </page>
-                            <page string="Sign-off Details">
+                            <page string="Committee and Sign-off Details" invisible="state == 'draft'">
                                 <group>
-                                    <group string="End User">
-                                        <field name="eu_name"/>
-                                        <field name="eu_date"/>
-                                        <field name="eu_signature"/>
-                                        <field name="eu_contact"/>
+                                    <group>
+                                        <field name="submitted_to_committee" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
+                                        <field name="committee_status" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
+                                        <field name="committee_comment" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
                                     </group>
-                                    <group string="For HOD Only">
+                                    <group>
                                         <field name="eu_hod_name"/>
                                         <field name="eu_hod_date"/>
                                         <field name="eu_hod_signature"/>
                                         <field name="hod_comment" invisible="state == 'draft'" readonly="state != 'submit'"/>
                                     </group>
-                                </group>
-                            </page>
-                             <page string="Committee Details" invisible="state == 'draft'">
-                                <group>
-                                    <field name="submitted_to_committee" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
-                                    <field name="committee_status" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
-                                    <field name="committee_comment" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
                                 </group>
                             </page>
                         </notebook>
