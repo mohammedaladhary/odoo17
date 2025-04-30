@@ -14,26 +14,28 @@ class MeqRequest(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Meq Request'
 
+    item_name = fields.Char('Item Name', required=True)
+    item_code = fields.Char('Item Code', required=True)
+    item_type = fields.Selection([('disposable', 'Disposable'), ('implantable', 'Implantable'), ('reusable', 'Reusable'),
+                                  ('instrument', 'Instrument'), ('na', 'Not Applicable'), ('other', 'Others')],
+                                 'Item Type', required=True)
+    urgency = fields.Selection(AVAILABLE_PRIORITIES, string='Urgency', required=True)
+    usage_location = fields.Char('Location of Usage', required=True)
+    uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')],
+                           'Unit of Measure', required=True)
+    reason = fields.Text('Reason for Request')
+    equipment_month = fields.Float('Expected Monthly Equipments', required=True)
+    quantity = fields.Float('Quantity Required', required=True)
+    description = fields.Text('Item Description', required=True)
+    cost = fields.Float('Estimated Cost per Unit', required=True)
+    cost_subtotal = fields.Float('Total Cost', compute="compute_cost_subtotal", required=True)
+    attachment = fields.Binary('Supplementary Document', required=True)
     name = fields.Char('Name')
     request_date = fields.Datetime('Date of Request', default=datetime.now(), readonly=True)
     req_by = fields.Many2one('res.users', 'Requested By', default=lambda self: self.env.user)
     contact = fields.Char('Contact No.', default=lambda self: self.env.user.phone, readonly=True)
     dept_id = fields.Many2one('hr.department', 'Department', compute='_compute_department',store=True, readonly=True)
     staff_id = fields.Char('Employee ID', compute="_compute_department", store=True)
-    product_name = fields.Char('Item Name')
-    item_code = fields.Char('Item Code')
-    item_type = fields.Selection(
-        [('disposable', 'Disposable'), ('implantable', 'Implantable'), ('reusable', 'Reusable'),
-         ('instrument', 'Instrument'), ('na', 'Not Applicable'), ('other', 'Others')], 'Item Type')
-    urgency = fields.Selection(AVAILABLE_PRIORITIES, string='Urgency')
-    Equipment_month = fields.Float('Expected Monthly Equipments')
-    quantity = fields.Float('Quantity Required')
-    cost = fields.Float('Estimated Cost per Unit')
-    cost_subtotal = fields.Float('Total Cost', compute="compute_cost_subtotal")
-    uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')], 'Unit of Measure', )
-    reason = fields.Text('Reason for Request')
-    description = fields.Text('Item Description')
-    attachment = fields.Binary('Supplementary Document')
     state = fields.Selection([('draft', 'Draft'), ('submit', 'Pending HOD Approval'),
                             ('committee_approve', 'Pending Equipment Committee Approval'),
                             ('store_approve', 'Pending Main Store Approval'), ('approve', 'Completed'),
@@ -42,7 +44,6 @@ class MeqRequest(models.Model):
     hod_comment = fields.Text('HOD Comment')
     committee_comment = fields.Text('Committee Comment', readonly=False, copy=False)
     committee_status = fields.Selection([('review', 'Under Review. Requested More Info.')], 'Committee Status')
-    usage_location = fields.Char('Location of Usage')
     backup_available = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Any similar/Back-up equipments available?')
     backup_details = fields.Text('Details of Back-up Equipment')
     replaces_existing = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Does this replace any current existing MEQ?')
@@ -65,10 +66,6 @@ class MeqRequest(models.Model):
     departments_details = fields.Text('Other Departments')
     other_factors = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Any other factors to be considered?')
     factors_details = fields.Text('Other Factors')
-    eu_name = fields.Char("End User Name")
-    eu_signature = fields.Char("End User Signature")
-    eu_date = fields.Date("End User Date")
-    eu_contact = fields.Char("End User Contact no.")
     eu_hod_name = fields.Char("HOD Name")
     eu_hod_signature = fields.Char("HOD Signature")
     eu_hod_date = fields.Date("HOD Date")
@@ -128,10 +125,10 @@ class MeqRequest(models.Model):
     #                 raise ValidationError(
     #                     "Contact number must start with 9 or 7 and be exactly 8 digits long (End User Contact).")
 
-    @api.constrains('Equipment_month', 'quantity', 'cost', 'cost_subtotal')
+    @api.constrains('equipment_month', 'quantity', 'cost', 'cost_subtotal')
     def _check_non_negative_fields(self):
         for rec in self:
-            if rec.Equipment_month < 0 or rec.quantity < 0 or rec.cost < 0 or rec.cost_subtotal < 0:
+            if rec.equipment_month < 0 or rec.quantity < 0 or rec.cost < 0 or rec.cost_subtotal < 0:
                 raise ValidationError(
                     "Fields 'Expected Monthly Equipments', 'Quantity Required', 'Estimated Cost per Unit', and 'Total Cost' cannot be less than zero.")
 

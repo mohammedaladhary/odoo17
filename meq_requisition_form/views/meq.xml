@@ -29,7 +29,7 @@
                             <page string="Medical Equipment Details">
                                 <group>
                                     <group>
-                                        <field name="product_name"/>
+                                        <field name="item_name"/>
                                         <field name="item_code"/>
                                         <field name="item_type"/>
                                         <field name="urgency" widget="priority"/>
@@ -37,7 +37,7 @@
                                         <field name="uom"/>
                                     </group>
                                     <group>
-                                        <field name="Equipment_month"/>
+                                        <field name="equipment_month"/>
                                         <field name="quantity"/>
                                         <field name="description"/>
                                         <field name="cost"/>
@@ -108,6 +108,7 @@
                 </form>
             </field>
         </record>
+
         <record id="view_meq_request_tree" model="ir.ui.view">
             <field name="name">meq.request.tree</field>
             <field name="model">meq.request</field>
@@ -125,13 +126,40 @@
                 </tree>
             </field>
         </record>
+
         <record id="action_meq_request" model="ir.actions.act_window">
             <field name="name">New Equipment Creation</field>
             <field name="res_model">meq.request</field>
             <field name="view_mode">tree,form</field>
         </record>
+
+        <record id="action_meq_request_hod" model="ir.actions.act_window">
+            <field name="name">Pending HOD Approval</field>
+            <field name="res_model">meq.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'submit')]</field>
+        </record>
+
+        <record id="action_meq_request_committee" model="ir.actions.act_window">
+            <field name="name">Pending Committee Approval</field>
+            <field name="res_model">meq.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'committee_approve')]</field>
+        </record>
+
+        <record id="action_meq_request_store" model="ir.actions.act_window">
+            <field name="name">Pending Store Approval</field>
+            <field name="res_model">meq.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'store_approve')]</field>
+        </record>
+
         <menuitem id="menu_meq_root" name="MEQ"/>
         <menuitem id="menu_meq_item_creation" name="Equipment Item Creation" parent="menu_meq_root"/>
         <menuitem id="menu_meq_requests" name="Equipment Requests" parent="menu_meq_item_creation" action="action_meq_request"/>
+        <menuitem id="menu_meq_hod_pending" name="Pending HOD Approval" parent="menu_meq_item_creation" action="action_meq_request_hod"/>
+        <menuitem id="menu_meq_committee_pending" name="Pending Committee Approval" parent="menu_meq_item_creation" action="action_meq_request_committee"/>
+        <menuitem id="menu_meq_store_pending" name="Pending Store Approval" parent="menu_meq_item_creation" action="action_meq_request_store"/>
+
     </data>
 </odoo>
