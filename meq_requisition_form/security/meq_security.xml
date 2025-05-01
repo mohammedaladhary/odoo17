@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_meq_hod" model="res.groups">
+        <field name="name">MEQ HOD</field>
+    </record>
+
+    <record id="group_meq_committee" model="res.groups">
+        <field name="name">MEQ Committee</field>
+    </record>
+
+    <record id="group_meq_store" model="res.groups">
+        <field name="name">MEQ Store</field>
+    </record>
+</odoo>

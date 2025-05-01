@@ -13,6 +13,7 @@
     'data': [
         # security
         'security/ir.model.access.csv',
+        'security/meq_security.xml',
 
         # sequence
         'data/meq_sequence.xml',

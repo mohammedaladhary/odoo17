@@ -42,7 +42,7 @@ class XlsxPropertyReport(http.Controller):
             worksheet.write(row_num, 7, equipment.item_code, string_format)
             worksheet.write(row_num, 8, dict(equipment._fields['item_type'].selection).get(equipment.item_type, ''),string_format)
             # worksheet.write(row_num, 9, dict(AVAILABLE_PRIORITIES).get(equipment.urgency, ''), string_format)
-            worksheet.write(row_num, 10, equipment.Equipment_month or 0.0, string_format)
+            worksheet.write(row_num, 10, equipment.equipment_month or 0.0, string_format)
             worksheet.write(row_num, 11, equipment.quantity or 0.0, string_format)
             worksheet.write(row_num, 12, equipment.cost or 0.0, string_format)
             worksheet.write(row_num, 13, equipment.cost_subtotal or 0.0, string_format)

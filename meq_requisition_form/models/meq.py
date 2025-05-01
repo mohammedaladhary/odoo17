@@ -93,10 +93,15 @@ class MeqRequest(models.Model):
         self.state = 'committee_approve'
 
     def cancel(self):
-        self.state = 'reject'
+        self.state = 'cancel'
 
-    # Store Approve
-    def approve(self):
+    def hod_approve(self):
+        self.state = 'committee_approve'
+
+    def committee_approve(self):
+        self.state = 'store_approve'
+
+    def store_approve(self):
         self.state = 'approve'
 
     def hod_reset_draft(self):
