@@ -42,56 +42,65 @@
                             <page string="Medical Equipment Details">
                                 <group>
                                     <group>
-                                        <field name="item_name"/>
-                                        <field name="item_code"/>
-                                        <field name="item_type"/>
-                                        <field name="urgency" widget="priority"/>
-                                        <field name="usage_location"/>
-                                        <field name="uom"/>
+                                        <field name="item_name" readonly="state == 'reject'"/>
+                                        <field name="item_code" readonly="state == 'reject'"/>
+                                        <field name="item_type" readonly="state == 'reject'"/>
+                                        <field name="urgency" widget="priority" readonly="state == 'reject'"/>
+                                        <field name="usage_location" readonly="state == 'reject'"/>
+                                        <field name="uom" readonly="state == 'reject'"/>
                                     </group>
                                     <group>
-                                        <field name="equipment_month"/>
-                                        <field name="quantity"/>
-                                        <field name="description"/>
-                                        <field name="cost"/>
+                                        <field name="equipment_month" readonly="state == 'reject'"/>
+                                        <field name="quantity" readonly="state == 'reject'"/>
+                                        <field name="description" readonly="state == 'reject'"/>
+                                        <field name="cost" readonly="state == 'reject'"/>
                                         <field name="cost_subtotal" readonly="1"/>
                                     </group>
                                 </group>
                                 <group>
                                     <group>
-                                        <field name="reason"/>
+                                        <field name="reason" readonly="state == 'reject'"/>
                                     </group>
                                     <group>
-                                        <field name="attachment"/>
+                                        <field name="attachment" readonly="state == 'reject'"/>
                                     </group>
                                 </group>
                             </page>
                             <page string="Additional Equipment Details">
                                 <group>
                                     <group>
-                                        <field name="backup_available"/>
+                                        <field name="backup_available" readonly="state == 'reject'"/>
                                         <field name="backup_details" invisible="backup_available != 'yes'" required="backup_available == 'yes'"/>
-                                        <field name="replaces_existing"/>
+
+                                        <field name="replaces_existing" readonly="state == 'reject'"/>
                                         <field name="replaces_details" invisible="replaces_existing != 'yes'" required="replaces_existing == 'yes'"/>
-                                        <field name="additional_doc_attached"/>
+
+                                        <field name="additional_doc_attached" readonly="state == 'reject'"/>
                                         <field name="additional_doc_details" invisible="additional_doc_attached != 'yes'" required="additional_doc_attached == 'yes'"/>
-                                        <field name="urgency_justification"/>
+
+                                        <field name="urgency_justification" readonly="state == 'reject'"/>
                                         <field name="urgency_details" invisible="urgency_justification != 'yes'" required="urgency_justification == 'yes'"/>
-                                        <field name="manpower_required"/>
+
+                                        <field name="manpower_required" readonly="state == 'reject'"/>
                                         <field name="manpower_details" invisible="manpower_required != 'yes'" required="manpower_required == 'yes'"/>
-                                        <field name="space_required"/>
+
+                                        <field name="space_required" readonly="state == 'reject'"/>
                                         <field name="space_details" invisible="space_required != 'yes'" required="space_required == 'yes'"/>
                                     </group>
                                     <group>
-                                        <field name="accessories_required"/>
+                                        <field name="accessories_required" readonly="state == 'reject'"/>
                                         <field name="accessories_details" invisible="accessories_required != 'yes'" required="accessories_required == 'yes'"/>
-                                        <field name="consumables_required"/>
+
+                                        <field name="consumables_required" readonly="state == 'reject'"/>
                                         <field name="consumables_details" invisible="consumables_required != 'yes'" required="consumables_required == 'yes'"/>
-                                        <field name="patient_usage"/>
+
+                                        <field name="patient_usage" readonly="state == 'reject'"/>
                                         <field name="usage_details" invisible="patient_usage != 'yes'" required="patient_usage == 'yes'"/>
-                                        <field name="used_in_other_departments"/>
+
+                                        <field name="used_in_other_departments" readonly="state == 'reject'"/>
                                         <field name="departments_details" invisible="used_in_other_departments != 'yes'" required="used_in_other_departments == 'yes'"/>
-                                        <field name="other_factors"/>
+
+                                        <field name="other_factors" readonly="state == 'reject'"/>
                                         <field name="factors_details" invisible="other_factors != 'yes'" required="other_factors == 'yes'"/>
                                     </group>
                                 </group>
@@ -104,10 +113,11 @@
                                         <field name="committee_comment" invisible="state == 'draft'" readonly="state != 'committee_approve'"/>
                                     </group>
                                     <group>
-                                        <field name="eu_hod_name"/>
-                                        <field name="eu_hod_date"/>
-                                        <field name="eu_hod_signature"/>
-                                        <field name="hod_comment" invisible="state == 'draft'" readonly="state != 'submit'"/>
+                                        <field name="eu_hod_name" readonly="state == 'reject'"/>
+                                        <field name="eu_hod_date" readonly="state == 'reject'"/>
+
+                                        <field name="eu_hod_signature" readonly="state == 'reject'"/>
+                                        <field name="hod_comment" invisible="state == 'draft'" readonly="state == 'reject'"/>
                                     </group>
                                 </group>
                             </page>
