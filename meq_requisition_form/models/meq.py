@@ -23,7 +23,7 @@ class MeqRequest(models.Model):
     usage_location = fields.Char('Location of Usage', required=True)
     uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')],
                            'Unit of Measure', required=True)
-    reason = fields.Text('Reason for Request')
+    reason = fields.Text('Reason for Request', required=True)
     equipment_month = fields.Float('Expected Monthly Equipments', required=True)
     quantity = fields.Float('Quantity Required', required=True)
     description = fields.Text('Item Description', required=True)
@@ -41,7 +41,6 @@ class MeqRequest(models.Model):
                             ('store_approve', 'Pending Main Store Approval'), ('approve', 'Completed'),
                             ('cancel', 'Cancel'), ('reject', 'Rejected')],
                             string='Status', default='draft', tracking=True, copy=False)
-    hod_comment = fields.Text('HOD Comment')
     committee_comment = fields.Text('Committee Comment', readonly=False, copy=False)
     committee_status = fields.Selection([('review', 'Under Review. Requested More Info.')], 'Committee Status')
     backup_available = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Any similar/Back-up equipments available?')
@@ -66,9 +65,10 @@ class MeqRequest(models.Model):
     departments_details = fields.Text('Other Departments')
     other_factors = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Any other factors to be considered?')
     factors_details = fields.Text('Other Factors')
-    eu_hod_name = fields.Char("HOD Name")
-    eu_hod_signature = fields.Char("HOD Signature")
-    eu_hod_date = fields.Date("HOD Date")
+    hod_name = fields.Char("HOD Name")
+    hod_signature = fields.Char("HOD Signature")
+    hod_date = fields.Date("HOD Date")
+    hod_comment = fields.Text('HOD Comment')
     submitted_to_committee = fields.Selection([('yes', 'Yes'),('no', 'No')], string="Submitted to Equipment Committee?")
 
     @api.model_create_multi
@@ -85,6 +85,9 @@ class MeqRequest(models.Model):
 
     def reject(self):
         self.state = 'reject'
+
+    def reset_to_draft(self):
+        self.state = 'draft'
 
     def reset_to_hod(self):
         self.state = 'submit'
@@ -103,9 +106,6 @@ class MeqRequest(models.Model):
 
     def store_approve(self):
         self.state = 'approve'
-
-    def hod_reset_draft(self):
-        self.state = 'draft'
 
     @api.onchange('cost', 'quantity')
     def compute_cost_subtotal(self):
@@ -133,9 +133,9 @@ class MeqRequest(models.Model):
     @api.constrains('equipment_month', 'quantity', 'cost', 'cost_subtotal')
     def _check_non_negative_fields(self):
         for rec in self:
-            if rec.equipment_month < 0 or rec.quantity < 0 or rec.cost < 0 or rec.cost_subtotal < 0:
+            if rec.equipment_month <= 0 or rec.quantity <= 0 or rec.cost <= 0 or rec.cost_subtotal < 0:
                 raise ValidationError(
-                    "Fields 'Expected Monthly Equipments', 'Quantity Required', 'Estimated Cost per Unit', and 'Total Cost' cannot be less than zero.")
+                    "Fields 'Expected Monthly Equipments', 'Quantity Required', 'Estimated Cost per Unit', and 'Total Cost' cannot be less than zero or zero.")
 
     def equipment_xlsx_report(self):
         ids = ','.join(str(x.id) for x in self)
