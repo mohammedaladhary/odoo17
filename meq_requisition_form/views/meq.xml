@@ -28,8 +28,12 @@
                                 invisible="state != 'store_approve'" name="reset_to_committee" string="Reset to Committee" type="object"/>
 
                         <button confirm="Are you sure you want to reject?" name="reject" string="Reject" type="object"
-                                groups="meq_requisition_form.group_meq_hod,meq_requisition_form.group_meq_committee,meq_requisition_form.group_meq_store"
-                                invisible="state not in ['submit', 'committee_approve','store_approve']"/>
+                                groups="meq_requisition_form.group_meq_hod"
+                                invisible="state not in ['submit']"/>
+
+                        <button confirm="Are you sure you want to reject?" name="reject" string="Reject" type="object"
+                                groups="meq_requisition_form.group_meq_committee"
+                                invisible="state not in ['committee_approve']"/>
 
                         <button invisible="state != 'draft'" name="cancel" string="Cancel" type="object"/>
                     </header>
@@ -43,7 +47,7 @@
                                 <field name="req_by" readonly="1" widget="badge"/>
                             </group>
                             <group>
-                                <field name="contact"/>
+                                <field name="contact" readonly="1"/>
                                 <field name="dept_id" widget="badge"/>
                             </group>
                         </group>

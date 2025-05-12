@@ -1,5 +1,5 @@
 from datetime import datetime
-from odoo import models, fields, api, re
+from odoo import models, fields, api
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.translate import _
 
