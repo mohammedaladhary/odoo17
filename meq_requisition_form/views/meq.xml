@@ -55,68 +55,68 @@
                             <page string="Medical Equipment Details">
                                 <group>
                                     <group>
-                                        <field name="item_name" readonly="state in ['reject', 'approve']"/>
-                                        <field name="item_code" readonly="state in ['reject', 'approve']"/>
+                                        <field name="item_name" readonly="state != 'draft'"/>
+                                        <field name="item_code" readonly="state != 'draft'"/>
 
-                                        <field name="item_type" readonly="state in ['reject', 'approve']"/>
-                                        <field name="urgency" widget="priority" readonly="state in ['reject', 'approve']"/>
+                                        <field name="item_type" readonly="state != 'draft'"/>
+                                        <field name="urgency" widget="priority" readonly="state != 'draft'"/>
 
-                                        <field name="usage_location" readonly="state in ['reject', 'approve']"/>
-                                        <field name="uom" readonly="state in ['reject', 'approve']"/>
+                                        <field name="usage_location" readonly="state != 'draft'"/>
+                                        <field name="uom" readonly="state != 'draft'"/>
                                     </group>
                                     <group>
-                                        <field name="equipment_month" readonly="state in ['reject', 'approve']"/>
-                                        <field name="quantity" readonly="state in ['reject', 'approve']"/>
-                                        <field name="description" readonly="state in ['reject', 'approve']"/>
+                                        <field name="equipment_month" readonly="state != 'draft'"/>
+                                        <field name="quantity" readonly="state != 'draft'"/>
+                                        <field name="description" readonly="state != 'draft'"/>
 
-                                        <field name="cost" readonly="state in ['reject', 'approve']"/>
+                                        <field name="cost" readonly="state != 'draft'"/>
                                         <field name="cost_subtotal" readonly="1"/>
                                     </group>
                                 </group>
                                 <group>
                                     <group>
-                                        <field name="reason" readonly="state in ['reject', 'approve']"/>
+                                        <field name="reason" readonly="state != 'draft'"/>
                                     </group>
                                     <group>
-                                        <field name="attachment" readonly="state in ['reject', 'approve']"/>
+                                        <field name="attachment" readonly="state != 'draft'"/>
                                     </group>
                                 </group>
                             </page>
                             <page string="Additional Equipment Details">
                                 <group>
                                     <group>
-                                        <field name="backup_available" readonly="state in ['reject', 'approve']"/>
+                                        <field name="backup_available" readonly="state != 'draft'"/>
                                         <field name="backup_details" invisible="backup_available != 'yes'" required="backup_available == 'yes'"/>
 
-                                        <field name="replaces_existing" readonly="state in ['reject', 'approve']"/>
+                                        <field name="replaces_existing" readonly="state != 'draft'"/>
                                         <field name="replaces_details" invisible="replaces_existing != 'yes'" required="replaces_existing == 'yes'"/>
 
-                                        <field name="additional_doc_attached" readonly="state in ['reject', 'approve']"/>
+                                        <field name="additional_doc_attached" readonly="state != 'draft'"/>
                                         <field name="additional_doc_details" invisible="additional_doc_attached != 'yes'" required="additional_doc_attached == 'yes'"/>
 
-                                        <field name="urgency_justification" readonly="state in ['reject', 'approve']"/>
+                                        <field name="urgency_justification" readonly="state != 'draft'"/>
                                         <field name="urgency_details" invisible="urgency_justification != 'yes'" required="urgency_justification == 'yes'"/>
 
-                                        <field name="manpower_required" readonly="state in ['reject', 'approve']"/>
+                                        <field name="manpower_required" readonly="state != 'draft'"/>
                                         <field name="manpower_details" invisible="manpower_required != 'yes'" required="manpower_required == 'yes'"/>
 
-                                        <field name="space_required" readonly="state in ['reject', 'approve']"/>
+                                        <field name="space_required" readonly="state != 'draft'"/>
                                         <field name="space_details" invisible="space_required != 'yes'" required="space_required == 'yes'"/>
                                     </group>
                                     <group>
-                                        <field name="accessories_required" readonly="state in ['reject', 'approve']"/>
+                                        <field name="accessories_required" readonly="state != 'draft'"/>
                                         <field name="accessories_details" invisible="accessories_required != 'yes'" required="accessories_required == 'yes'"/>
 
-                                        <field name="consumables_required" readonly="state in ['reject', 'approve']"/>
+                                        <field name="consumables_required" readonly="state != 'draft'"/>
                                         <field name="consumables_details" invisible="consumables_required != 'yes'" required="consumables_required == 'yes'"/>
 
-                                        <field name="patient_usage" readonly="state in ['reject', 'approve']"/>
+                                        <field name="patient_usage" readonly="state != 'draft'"/>
                                         <field name="usage_details" invisible="patient_usage != 'yes'" required="patient_usage == 'yes'"/>
 
-                                        <field name="used_in_other_departments" readonly="state in ['reject', 'approve']"/>
+                                        <field name="used_in_other_departments" readonly="state != 'draft'"/>
                                         <field name="departments_details" invisible="used_in_other_departments != 'yes'" required="used_in_other_departments == 'yes'"/>
 
-                                        <field name="other_factors" readonly="state in ['reject', 'approve']"/>
+                                        <field name="other_factors" readonly="state != 'draft'"/>
                                         <field name="factors_details" invisible="other_factors != 'yes'" required="other_factors == 'yes'"/>
                                     </group>
                                 </group>
@@ -134,7 +134,7 @@
                                         <field name="submitted_to_committee" readonly="state != 'committee_approve'"/>
                                         <field name="committee_status" readonly="state != 'committee_approve'"/>
 
-                                        <field name="committee_comment" readonly="state != 'committee_approve'"/>
+                                        <field name="committee_comment" readonly="state not in ['committee_approve']"/>
                                     </group>
                                 </group>
                             </page>
