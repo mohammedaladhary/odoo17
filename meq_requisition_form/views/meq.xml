@@ -124,16 +124,14 @@
                             <page string="Committee and Sign-off Details" invisible="state == 'draft'">
                                 <group>
                                     <group>
-                                        <field name="hod_name" readonly="state != 'submit'"/>
-                                        <field name="hod_date" readonly="state != 'submit'"/>
-
-                                        <field name="hod_signature" readonly="state != 'submit'"/>
-                                        <field name="hod_comment" readonly="state != 'submit'"/>
+                                        <field name="hod_name"/>
+                                        <field name="hod_date"/>
+                                        <field name="hod_signature"/>
+                                        <field name="hod_comment"/>
                                     </group>
                                     <group>
                                         <field name="submitted_to_committee" readonly="state != 'committee_approve'"/>
                                         <field name="committee_status" readonly="state != 'committee_approve'"/>
-
                                         <field name="committee_comment" readonly="state not in ['committee_approve']"/>
                                     </group>
                                 </group>

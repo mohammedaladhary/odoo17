@@ -13,6 +13,7 @@ class MeqRequest(models.Model):
     _name = 'meq.request'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Meq Request'
+    is_hod_editable = fields.Boolean(compute='_compute_is_hod_editable')
 
     item_name = fields.Char('Item Name', required=True)
     item_code = fields.Char('Item Code', required=True)
@@ -141,6 +142,16 @@ class MeqRequest(models.Model):
                 raise ValidationError(
                     "Fields 'Expected Monthly Equipments', 'Quantity Required', "
                     "'Estimated Cost per Unit', and 'Total Cost' cannot be less than zero or zero.")
+
+    @api.model
+    def fields_get(self, allfields=None, attributes=None):
+        res = super(MeqRequest, self).fields_get(allfields, attributes)
+        user = self.env.user
+        if not user.has_group('meq_requisition_form.group_meq_hod'):
+            for field in ['hod_name', 'hod_date', 'hod_signature', 'hod_comment']:
+                if field in res:
+                    res[field]['readonly'] = True
+        return res
 
     def equipment_xlsx_report(self):
         ids = ','.join(str(x.id) for x in self)
