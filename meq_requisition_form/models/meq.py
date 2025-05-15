@@ -13,28 +13,31 @@ class MeqRequest(models.Model):
     _name = 'meq.request'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Meq Request'
-    is_hod_editable = fields.Boolean(compute='_compute_is_hod_editable')
 
     item_name = fields.Char('Item Name', required=True)
     item_code = fields.Char('Item Code', required=True)
     item_type = fields.Selection([('disposable', 'Disposable'), ('implantable', 'Implantable'), ('reusable', 'Reusable'),
                                   ('instrument', 'Instrument'), ('na', 'Not Applicable'), ('other', 'Others')],
                                  'Item Type', required=True)
+
     urgency = fields.Selection(AVAILABLE_PRIORITIES, string='Urgency', required=True)
     usage_location = fields.Char('Location of Usage', required=True)
     uom = fields.Selection([('PC', 'PC'), ('Pack', 'PACK'), ('Kit', 'KIT'), ('BOX', 'BOX')],
                            'Unit of Measure', required=True)
     reason = fields.Text('Reason for Request', required=True)
+
     equipment_month = fields.Float('Expected Monthly Equipments', required=True)
     quantity = fields.Float('Quantity Required', required=True)
     description = fields.Text('Item Description', required=True)
     cost = fields.Float('Estimated Cost per Unit', required=True)
     cost_subtotal = fields.Float('Total Cost', compute="compute_cost_subtotal", required=True)
+
     attachment = fields.Binary('Supplementary Document', required=True)
     name = fields.Char('Name')
     request_date = fields.Datetime('Date of Request', default=datetime.now(), readonly=True)
     req_by = fields.Many2one('res.users', 'Requested By', default=lambda self: self.env.user)
     contact = fields.Char('Contact No.', default=lambda self: self.env.user.phone, readonly=True)
+
     dept_id = fields.Many2one('hr.department', 'Department', compute='_compute_department',store=True, readonly=True)
     staff_id = fields.Char('Employee ID', compute="_compute_department", store=True)
     state = fields.Selection([('draft', 'Draft'), ('submit', 'Pending HOD Approval'),
@@ -44,6 +47,7 @@ class MeqRequest(models.Model):
                             string='Status', default='draft', tracking=True, copy=False)
     committee_comment = fields.Text('Committee Comment', readonly=False, copy=False)
     committee_status = fields.Selection([('review', 'Under Review. Requested More Info.')], 'Committee Status')
+
     backup_available = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Any similar/Back-up equipments available?')
     backup_details = fields.Text('Details of Back-up Equipment')
     replaces_existing = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Does this replace any current existing MEQ?')
@@ -52,6 +56,7 @@ class MeqRequest(models.Model):
     additional_doc_details = fields.Text('Additional Document Details')
     urgency_justification = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Urgency and Justification?')
     urgency_details = fields.Text('Justification Details')
+
     manpower_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Manpower Requirement?')
     manpower_details = fields.Text('Details of Manpower Requirement')
     space_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Space Requirement?')
@@ -60,12 +65,14 @@ class MeqRequest(models.Model):
     accessories_details = fields.Text('Accessories / Software’s Details')
     consumables_required = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Required Consumables?')
     consumables_details = fields.Text('Consumables Details')
+
     patient_usage = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Expected Patient Usage/Month?')
     usage_details = fields.Text('Expected Monthly Patient Usage')
     used_in_other_departments = fields.Selection([('yes', 'Yes'), ('no', 'No')],'Can this MEQ be used in other departments?')
     departments_details = fields.Text('Other Departments')
     other_factors = fields.Selection([('yes', 'Yes'), ('no', 'No')], 'Any other factors to be considered?')
     factors_details = fields.Text('Other Factors')
+
     hod_name = fields.Char("HOD Name")
     hod_signature = fields.Char("HOD Signature")
     hod_date = fields.Date("HOD Date")
@@ -119,18 +126,6 @@ class MeqRequest(models.Model):
             employee = rec.req_by.employee_ids[:1]
             rec.dept_id = employee.department_id.id
 
-    # @api.constrains('contact','eu_contact')
-    # def _check_contact_number(self):
-    #     for rec in self:
-    #         if rec.contact:
-    #             if not re.match(r'^[97]\d{7}$', rec.contact):
-    #                 raise ValidationError(
-    #                     "Contact number must start with 9 or 7 and be exactly 8 digits long (Contact Number).")
-    #         if rec.eu_contact:
-    #             if not re.match(r'^[97]\d{7}$', rec.eu_contact):
-    #                 raise ValidationError(
-    #                     "Contact number must start with 9 or 7 and be exactly 8 digits long (End User Contact).")
-
     @api.constrains('equipment_month', 'quantity', 'cost', 'cost_subtotal')
     def _check_non_negative_fields(self):
         for rec in self:
@@ -148,12 +143,18 @@ class MeqRequest(models.Model):
         res = super(MeqRequest, self).fields_get(allfields, attributes)
         user = self.env.user
 
-        if not (user.has_group('meq_requisition_form.group_meq_hod') and not user._is_admin()):
+        # if not user.has_group(
+        #         'meq_requisition_form.group_meq_user'):  # and not user._is_admin())  ->for admin purposes not be edited by him too.
+        #     for field in ['item_name', 'item_code', 'item_type', 'urgency']:
+        #         if field in res:
+        #             res[field]['readonly'] = True
+
+        if not user.has_group('meq_requisition_form.group_meq_hod'): # and not user._is_admin())  ->for admin purposes not be edited by him too.
             for field in ['hod_name', 'hod_date', 'hod_signature', 'hod_comment']:
                 if field in res:
                     res[field]['readonly'] = True
 
-        if not (user.has_group('meq_requisition_form.group_meq_committee') and not user._is_admin()):
+        if not user.has_group('meq_requisition_form.group_meq_committee'): # and not user._is_admin())  ->for admin purposes not be edited by him too.
             for field in ['submitted_to_committee', 'committee_status', 'committee_comment']:
                 if field in res:
                     res[field]['readonly'] = True
@@ -167,3 +168,15 @@ class MeqRequest(models.Model):
             'url': f'/equipment/excel/report/{ids}',
             'target': 'new',
         }
+
+    # @api.constrains('contact','eu_contact')
+    # def _check_contact_number(self):
+    #     for rec in self:
+    #         if rec.contact:
+    #             if not re.match(r'^[97]\d{7}$', rec.contact):
+    #                 raise ValidationError(
+    #                     "Contact number must start with 9 or 7 and be exactly 8 digits long (Contact Number).")
+    #         if rec.eu_contact:
+    #             if not re.match(r'^[97]\d{7}$', rec.eu_contact):
+    #                 raise ValidationError(
+    #                     "Contact number must start with 9 or 7 and be exactly 8 digits long (End User Contact).")

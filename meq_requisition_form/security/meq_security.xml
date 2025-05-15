@@ -1,46 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="module_category_meq" model="ir.module.category">
-        <field name="name">Medical Equipment Requests</field>
-        <field name="description">Access rights for MEQ system users</field>
-        <field name="sequence">30</field>
-    </record>
-
     <record id="group_meq_user" model="res.groups">
         <field name="name">MEQ User</field>
-        <field name="category_id" ref="meq_requisition_form.module_category_meq"/>
     </record>
 
     <record id="group_meq_hod" model="res.groups">
         <field name="name">MEQ HOD</field>
         <field name="implied_ids" eval="[(4, ref('meq_requisition_form.group_meq_user'))]"/>
-        <field name="category_id" ref="meq_requisition_form.module_category_meq"/>
     </record>
 
     <record id="group_meq_committee" model="res.groups">
         <field name="name">MEQ Committee</field>
         <field name="implied_ids" eval="[(4, ref('meq_requisition_form.group_meq_user'))]"/>
-        <field name="category_id" ref="meq_requisition_form.module_category_meq"/>
     </record>
 
     <record id="group_meq_store" model="res.groups">
         <field name="name">MEQ Store</field>
         <field name="implied_ids" eval="[(4, ref('meq_requisition_form.group_meq_user'))]"/>
-        <field name="category_id" ref="meq_requisition_form.module_category_meq"/>
     </record>
 </odoo>
-
-
-<!--<odoo>-->
-<!--    <record id="group_meq_hod" model="res.groups">-->
-<!--        <field name="name">MEQ HOD</field>-->
-<!--    </record>-->
-
-<!--    <record id="group_meq_committee" model="res.groups">-->
-<!--        <field name="name">MEQ Committee</field>-->
-<!--    </record>-->
-
-<!--    <record id="group_meq_store" model="res.groups">-->
-<!--        <field name="name">MEQ Store</field>-->
-<!--    </record>-->
-<!--</odoo>-->
