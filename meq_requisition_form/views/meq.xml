@@ -130,9 +130,9 @@
                                         <field name="hod_comment"/>
                                     </group>
                                     <group>
-                                        <field name="submitted_to_committee" readonly="state != 'committee_approve'"/>
-                                        <field name="committee_status" readonly="state != 'committee_approve'"/>
-                                        <field name="committee_comment" readonly="state not in ['committee_approve']"/>
+                                        <field name="submitted_to_committee"/>
+                                        <field name="committee_status"/>
+                                        <field name="committee_comment"/>
                                     </group>
                                 </group>
                             </page>

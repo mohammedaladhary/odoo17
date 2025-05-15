@@ -147,10 +147,17 @@ class MeqRequest(models.Model):
     def fields_get(self, allfields=None, attributes=None):
         res = super(MeqRequest, self).fields_get(allfields, attributes)
         user = self.env.user
-        if not user.has_group('meq_requisition_form.group_meq_hod'):
+
+        if not (user.has_group('meq_requisition_form.group_meq_hod') and not user._is_admin()):
             for field in ['hod_name', 'hod_date', 'hod_signature', 'hod_comment']:
                 if field in res:
                     res[field]['readonly'] = True
+
+        if not (user.has_group('meq_requisition_form.group_meq_committee') and not user._is_admin()):
+            for field in ['submitted_to_committee', 'committee_status', 'committee_comment']:
+                if field in res:
+                    res[field]['readonly'] = True
+
         return res
 
     def equipment_xlsx_report(self):
