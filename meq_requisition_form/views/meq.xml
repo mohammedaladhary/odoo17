@@ -86,38 +86,38 @@
                                 <group>
                                     <group>
                                         <field name="backup_available" readonly="state != 'draft'"/>
-                                        <field name="backup_details" invisible="backup_available != 'yes'" required="backup_available == 'yes'"/>
+                                        <field name="backup_details" invisible="backup_available != 'yes'" required="backup_available == 'yes'" readonly="state != 'draft'"/>
 
                                         <field name="replaces_existing" readonly="state != 'draft'"/>
-                                        <field name="replaces_details" invisible="replaces_existing != 'yes'" required="replaces_existing == 'yes'"/>
+                                        <field name="replaces_details" invisible="replaces_existing != 'yes'" required="replaces_existing == 'yes'" readonly="state != 'draft'"/>
 
                                         <field name="additional_doc_attached" readonly="state != 'draft'"/>
-                                        <field name="additional_doc_details" invisible="additional_doc_attached != 'yes'" required="additional_doc_attached == 'yes'"/>
+                                        <field name="additional_doc_details" invisible="additional_doc_attached != 'yes'" required="additional_doc_attached == 'yes'" readonly="state != 'draft'"/>
 
                                         <field name="urgency_justification" readonly="state != 'draft'"/>
-                                        <field name="urgency_details" invisible="urgency_justification != 'yes'" required="urgency_justification == 'yes'"/>
+                                        <field name="urgency_details" invisible="urgency_justification != 'yes'" required="urgency_justification == 'yes'" readonly="state != 'draft'"/>
 
                                         <field name="manpower_required" readonly="state != 'draft'"/>
-                                        <field name="manpower_details" invisible="manpower_required != 'yes'" required="manpower_required == 'yes'"/>
+                                        <field name="manpower_details" invisible="manpower_required != 'yes'" required="manpower_required == 'yes'" readonly="state != 'draft'"/>
 
                                         <field name="space_required" readonly="state != 'draft'"/>
-                                        <field name="space_details" invisible="space_required != 'yes'" required="space_required == 'yes'"/>
+                                        <field name="space_details" invisible="space_required != 'yes'" required="space_required == 'yes'" readonly="state != 'draft'"/>
                                     </group>
                                     <group>
                                         <field name="accessories_required" readonly="state != 'draft'"/>
-                                        <field name="accessories_details" invisible="accessories_required != 'yes'" required="accessories_required == 'yes'"/>
+                                        <field name="accessories_details" invisible="accessories_required != 'yes'" required="accessories_required == 'yes'" readonly="state != 'draft'"/>
 
                                         <field name="consumables_required" readonly="state != 'draft'"/>
-                                        <field name="consumables_details" invisible="consumables_required != 'yes'" required="consumables_required == 'yes'"/>
+                                        <field name="consumables_details" invisible="consumables_required != 'yes'" required="consumables_required == 'yes'" readonly="state != 'draft'"/>
 
                                         <field name="patient_usage" readonly="state != 'draft'"/>
-                                        <field name="usage_details" invisible="patient_usage != 'yes'" required="patient_usage == 'yes'"/>
+                                        <field name="usage_details" invisible="patient_usage != 'yes'" required="patient_usage == 'yes'" readonly="state != 'draft'"/>
 
                                         <field name="used_in_other_departments" readonly="state != 'draft'"/>
-                                        <field name="departments_details" invisible="used_in_other_departments != 'yes'" required="used_in_other_departments == 'yes'"/>
+                                        <field name="departments_details" invisible="used_in_other_departments != 'yes'" required="used_in_other_departments == 'yes'" readonly="state != 'draft'"/>
 
                                         <field name="other_factors" readonly="state != 'draft'"/>
-                                        <field name="factors_details" invisible="other_factors != 'yes'" required="other_factors == 'yes'"/>
+                                        <field name="factors_details" invisible="other_factors != 'yes'" required="other_factors == 'yes'" readonly="state != 'draft'"/>
                                     </group>
                                 </group>
                             </page>
