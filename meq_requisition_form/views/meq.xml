@@ -197,7 +197,7 @@
             <field name="domain">[('state', '=', 'store_approve')]</field>
         </record>
 
-        <menuitem id="menu_meq_root" name="MEQ"/>
+        <menuitem id="menu_meq_root" name="MEQ" sequence="1"/>
         <menuitem id="menu_meq_item_creation" name="Equipment Item Creation" parent="menu_meq_root"/>
 
         <menuitem id="menu_meq_requests" name="Equipment Requests" parent="menu_meq_item_creation" action="action_meq_request"/>

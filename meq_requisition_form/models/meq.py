@@ -40,6 +40,7 @@ class MeqRequest(models.Model):
 
     dept_id = fields.Many2one('hr.department', 'Department', compute='_compute_department',store=True, readonly=True)
     staff_id = fields.Char('Employee ID', compute="_compute_department", store=True)
+
     state = fields.Selection([('draft', 'Draft'), ('submit', 'Pending HOD Approval'),
                             ('committee_approve', 'Pending Equipment Committee Approval'),
                             ('store_approve', 'Pending Main Store Approval'), ('approve', 'Completed'),
@@ -143,15 +144,15 @@ class MeqRequest(models.Model):
         res = super(MeqRequest, self).fields_get(allfields, attributes)
         user = self.env.user
 
-        if not user.has_group(
-                'meq_requisition_form.group_meq_hod'): # and not user._is_admin())  ->for admin purposes not be edited by him too.
+        if not (user.has_group(
+                'meq_requisition_form.group_meq_hod') and not user._is_admin()):
             for field in [
                 'hod_name', 'hod_date', 'hod_signature', 'hod_comment']:
                 if field in res:
                     res[field]['readonly'] = True
 
-        if not user.has_group(
-                'meq_requisition_form.group_meq_committee'): # and not user._is_admin())  ->for admin purposes not be edited by him too.
+        if not (user.has_group(
+                'meq_requisition_form.group_meq_committee') and not user._is_admin()):
             for field in [
                 'submitted_to_committee', 'committee_status', 'committee_comment']:
                 if field in res:
@@ -166,15 +167,3 @@ class MeqRequest(models.Model):
             'url': f'/equipment/excel/report/{ids}',
             'target': 'new',
         }
-
-    # @api.constrains('contact','eu_contact')
-    # def _check_contact_number(self):
-    #     for rec in self:
-    #         if rec.contact:
-    #             if not re.match(r'^[97]\d{7}$', rec.contact):
-    #                 raise ValidationError(
-    #                     "Contact number must start with 9 or 7 and be exactly 8 digits long (Contact Number).")
-    #         if rec.eu_contact:
-    #             if not re.match(r'^[97]\d{7}$', rec.eu_contact):
-    #                 raise ValidationError(
-    #                     "Contact number must start with 9 or 7 and be exactly 8 digits long (End User Contact).")
