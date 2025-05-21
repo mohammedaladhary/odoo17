@@ -33,13 +33,13 @@
         <field name="name">MEQ Request User</field>
         <field name="model_id" ref="meq_requisition_form.model_meq_request"/>
         <field name="domain_force">[('req_by', '=', user.id)]</field>
-        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="groups" eval="[(4, ref('meq_requisition_form.group_meq_user'))]"/>
     </record>
 
     <record id="meq_hod_rule" model="ir.rule">
         <field name="name">MEQ Request HOD</field>
         <field name="model_id" ref="meq_requisition_form.model_meq_request"/>
-        <field name="domain_force">[(1, '=', 1)]</field> <!-- means TRUE: all records -->
+        <field name="domain_force">[(1, '=', 1)]</field>
         <field name="groups" eval="[(4, ref('meq_requisition_form.group_meq_hod'))]"/>
     </record>
 

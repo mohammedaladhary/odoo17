@@ -11,8 +11,8 @@
     'application': True,
     'data': [
         # security
-        'security/ir.model.access.csv',
         'security/meq_security.xml',
+        'security/ir.model.access.csv',
 
         # data
         'data/meq_sequence.xml',
@@ -20,5 +20,6 @@
 
         # views     # order matters!!
         'views/meq.xml',
+        'views/meq_menus.xml',
     ]
 }

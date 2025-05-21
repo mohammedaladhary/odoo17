@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_meq_root" name="MEQ Application" sequence="1">
+        <menuitem id="menu_meq_equipment_requests" name="Equipment Requests">
+            <menuitem id="menu_meq_requests" name="All Requests" action="action_meq_request"/>
+            <menuitem id="menu_meq_hod_pending" name="Pending HOD Approval" action="action_meq_request_hod"/>
+            <menuitem id="menu_meq_committee_pending" name="Pending Committee Approval" action="action_meq_request_committee"/>
+            <menuitem id="menu_meq_store_pending" name="Pending Store Approval" action="action_meq_request_store"/>
+        </menuitem>
+    </menuitem>
+</odoo>

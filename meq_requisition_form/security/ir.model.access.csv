@@ -1,3 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_meq_request_user,meq.request user access,model_meq_request,base.group_user,1,1,1,0
-access_meq_request_manager,meq.request manager access,model_meq_request,base.group_system,1,1,1,1
+access_meq_admin,access_meq_admin,model_meq_request,base.group_system,1,1,1,1
+access_meq_user,access_meq_user,model_meq_request,meq_requisition_form.group_meq_user,1,1,1,0
+access_meq_hod,access_meq_hod,model_meq_request,meq_requisition_form.group_meq_hod,1,1,1,1
+access_meq_committee,access_meq_committee,model_meq_request,meq_requisition_form.group_meq_committee,1,1,0,0
+access_meq_store,access_meq_store,model_meq_request,meq_requisition_form.group_meq_store,1,1,0,0
