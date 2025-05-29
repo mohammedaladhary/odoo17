@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="meq_request_demo_1" model="meq.request">
+            <field name="item_name">Defibrillator</field>
+            <field name="item_code">EQP-001</field>
+            <field name="item_type">disposable</field>
+            <field name="urgency">low</field>
+            <field name="usage_location">ICU</field>
+            <field name="uom">PC</field>
+            <field name="equipment_month">2</field>
+            <field name="quantity">1</field>
+            <field name="description">Portable defibrillator</field>
+            <field name="cost">1500</field>
+            <field name="cost_subtotal">1500</field>
+            <field name="reason">Cardiac emergency response</field>
+            <field name="attachment">defib_specs.pdf</field>
+            <field name="req_by" ref="base.user_admin"/>
+        </record>
+
+        <record id="meq_request_demo_2" model="meq.request">
+            <field name="item_name">Infusion Pump</field>
+            <field name="item_code">EQP-002</field>
+            <field name="item_type">reusable</field>
+            <field name="urgency">high</field>
+            <field name="usage_location">ER</field>
+            <field name="uom">BOX</field>
+            <field name="equipment_month">5</field>
+            <field name="quantity">2</field>
+            <field name="description">Volumetric infusion pump</field>
+            <field name="cost">800</field>
+            <field name="cost_subtotal">1600</field>
+            <field name="reason">Fluid management in emergencies</field>
+            <field name="attachment">infusion_specs.pdf</field>
+            <field name="req_by" ref="meq_requisition_form.group_meq_user"/>
+        </record>
+    </data>
+</odoo>

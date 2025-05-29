@@ -132,7 +132,7 @@
                                     <group>
                                         <field name="submitted_to_committee"/>
                                         <field name="committee_status"/>
-                                        <field name="committee_comment"/>
+                                        <field name="committee_comment" />
                                     </group>
                                 </group>
                             </page>

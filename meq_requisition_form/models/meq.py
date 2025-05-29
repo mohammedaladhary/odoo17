@@ -98,6 +98,10 @@ class MeqRequest(models.Model):
     def reset_to_draft(self):
         self.state = 'draft'
 
+    def action_hod_approve(self):
+        self.hod_date = fields.Date.today()
+        self.state = 'committee_approve'
+
     def reset_to_hod(self):
         self.state = 'submit'
 
