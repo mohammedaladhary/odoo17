@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_form_key_request" model="ir.ui.view">
+        <field name="name">key.request.form</field>
+        <field name="model">key.request</field>
+        <field name="arch" type="xml">
+            <form string="Key Request">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approved,rejected"/>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" type="object" class="btn-success"
+                            invisible="state != 'submit'"/>
+                    <button name="action_reject" string="Reject" type="object" class="btn-danger"
+                            invisible="state != 'submit'"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="request_date"/>
+                        <field name="request_type"/>
+                        <field name="req_by"/>
+                        <field name="staff_id"/>
+                        <field name="position"/>
+                        <field name="dept_id"/>
+                        <field name="contact"/>
+                    </group>
+                    <notebook>
+                        <page string="Requested Keys">
+                            <field name="key_line_ids">
+                                <tree editable="bottom">
+                                    <field name="level"/>
+                                    <field name="zone"/>
+                                    <field name="room_no"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Signatures">
+                            <group>
+                                <field name="employee_signature"/>
+                                <field name="hod_name"/>
+                                <field name="hod_signature"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_tree_key_request" model="ir.ui.view">
+        <field name="name">key.request.tree</field>
+        <field name="model">key.request</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="request_date"/>
+                <field name="request_type"/>
+                <field name="req_by"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+</odoo>
