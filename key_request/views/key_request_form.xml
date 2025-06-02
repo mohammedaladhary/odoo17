@@ -16,14 +16,17 @@
                 </header>
                 <sheet>
                     <group>
-                        <field name="name" readonly="1"/>
-                        <field name="request_date"/>
-                        <field name="request_type"/>
-                        <field name="req_by"/>
-                        <field name="staff_id"/>
-                        <field name="position"/>
-                        <field name="dept_id"/>
-                        <field name="contact"/>
+                        <group>
+                            <field name="req_by"/>
+                            <field name="staff_id"/>
+                            <field name="request_type" widget="radio"/>
+                        </group>
+                        <group>
+                            <field name="request_date"/>
+                            <field name="position"/>
+                            <field name="dept_id"/>
+                            <field name="contact"/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="Requested Keys">
@@ -52,10 +55,9 @@
         <field name="model">key.request</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
+                <field name="req_by"/>
                 <field name="request_date"/>
                 <field name="request_type"/>
-                <field name="req_by"/>
                 <field name="state"/>
             </tree>
         </field>

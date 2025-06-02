@@ -9,9 +9,7 @@ class KeyRequest(models.Model):
     _description = 'Key Request Form'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string="Request Reference", readonly=True, copy=False, tracking=True)
     request_date = fields.Datetime('Date of Request', default=fields.Datetime.now, readonly=True)
-
     request_type = fields.Selection([
         ('key_request', 'Key Request'),
         ('lost_key', 'Lost Key Request'),
@@ -19,11 +17,11 @@ class KeyRequest(models.Model):
     ], string="Type of Request", required=True, tracking=True)
 
     req_by = fields.Many2one('res.users', string='Requested By', default=lambda self: self.env.user, readonly=True)
-    staff_id = fields.Char(string="Staff ID No.", required=True)
-    position = fields.Char(string="Position/Title")
-
-    dept_id = fields.Many2one('hr.department', 'Department', compute='_compute_department',store=True, readonly=True)
+    staff_id = fields.Char(string="Staff ID no.", compute='_compute_staff_id', store=True, readonly=True)
+    position = fields.Many2one('hr.job',string="Position/Title", compute='_compute_position', store=True, readonly=True)
+    dept_id = fields.Many2one('hr.department', string='Department', compute='_compute_department', store=True, readonly=True)
     contact = fields.Char(string='Contact No.', default=lambda self: self.env.user.phone, readonly=True)
+
     key_line_ids = fields.One2many('key.request.line', 'request_id', string="Requested Keys")
 
     employee_signature = fields.Char(string="Employee Signature")
@@ -37,9 +35,8 @@ class KeyRequest(models.Model):
         ('rejected', 'Rejected')
     ], string='Status', default='draft', tracking=True)
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code('key.request') or _('New')
         return super(KeyRequest, self).create(vals)
 
     def action_submit(self):
@@ -59,6 +56,23 @@ class KeyRequest(models.Model):
             rec.state = 'rejected'
             rec.message_post(body=_("Key Request rejected."))
 
+    @api.depends('req_by')
+    def _compute_staff_id(self):
+        for rec in self:
+            employee = rec.req_by.employee_ids[:1]
+            rec.staff_id = employee.barcode
+
+    @api.depends('req_by')
+    def _compute_position(self):
+        for rec in self:
+            employee = rec.req_by.employee_ids[:1]
+            rec.position = employee.job_id
+
+    @api.depends('req_by')
+    def _compute_department(self):
+        for rec in self:
+            employee = rec.req_by.employee_ids[:1]
+            rec.dept_id = employee.department_id
 
 class KeyRequestLine(models.Model):
     _name = 'key.request.line'
@@ -68,5 +82,3 @@ class KeyRequestLine(models.Model):
     level = fields.Char(string="Level")
     zone = fields.Char(string="Zone")
     room_no = fields.Char(string="Room no.")
-
-
