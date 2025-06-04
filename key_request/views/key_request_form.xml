@@ -32,6 +32,7 @@
                         <page string="Requested Keys">
                             <field name="key_line_ids">
                                 <tree editable="bottom">
+                                    <field name="sequence" readonly="1"/>
                                     <field name="level"/>
                                     <field name="zone"/>
                                     <field name="room_no"/>

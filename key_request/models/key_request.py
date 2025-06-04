@@ -74,11 +74,32 @@ class KeyRequest(models.Model):
             employee = rec.req_by.employee_ids[:1]
             rec.dept_id = employee.department_id
 
+from odoo import models, fields, api
+
 class KeyRequestLine(models.Model):
     _name = 'key.request.line'
     _description = 'Key Request Line'
+    _order = 'sequence'
 
+    sequence = fields.Integer(string="#", readonly=True)
     request_id = fields.Many2one('key.request', string="Request", required=True, ondelete='cascade')
     level = fields.Char(string="Level")
     zone = fields.Char(string="Zone")
     room_no = fields.Char(string="Room no.")
+
+    @api.onchange('request_id')
+    def _onchange_request_id(self):
+        if self.request_id:
+            existing_lines = self.request_id.key_line_ids
+            self.sequence = len(existing_lines)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get('sequence') and vals.get('request_id'):
+                last_line = self.search(
+                    [('request_id', '=', vals['request_id'])],
+                    order='sequence desc', limit=1
+                )
+                vals['sequence'] = last_line.sequence + 1 if last_line else 1
+        return super().create(vals_list)
