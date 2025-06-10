@@ -15,6 +15,7 @@ class KeyRequest(models.Model):
         ('lost_key', 'Lost Key Request'),
         ('key_return', 'Key Return')
     ], string="Type of Request", required=True, tracking=True)
+    name = fields.Char('Name')
 
     req_by = fields.Many2one('res.users', string='Requested By', default=lambda self: self.env.user, readonly=True)
     staff_id = fields.Char(string="Staff ID no.", compute='_compute_staff_id', store=True, readonly=True)
@@ -37,14 +38,15 @@ class KeyRequest(models.Model):
 
     @api.model_create_multi
     def create(self, vals):
+        for val in vals:
+            val['name'] = _('New')
         return super(KeyRequest, self).create(vals)
 
     def action_submit(self):
-        for rec in self:
-            if rec.req_by != self.env.user:
-                raise UserError(_('Only the requester (%s) can submit this request.') % rec.req_by.name)
-            rec.state = 'submit'
-            rec.message_post(body=_("Key Request submitted."))
+            if self.req_by != self.env.user:
+                raise UserError(_('only %s can submit this request') % self.req_by.name)
+            self.state = 'submit'
+            self.name = self.env['ir.sequence'].next_by_code('key.request') or _('New')
 
     def action_approve(self):
         for rec in self:
