@@ -1,7 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
-from datetime import datetime
 
 
 class KeyRequest(models.Model):
@@ -29,12 +28,13 @@ class KeyRequest(models.Model):
     hod_name = fields.Char(string="Head of Department")
     hod_signature = fields.Char(string="HOD Signature")
 
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('submit', 'Submitted'),
-        ('approved', 'Approved'),
-        ('rejected', 'Rejected')
-    ], string='Status', default='draft', tracking=True)
+    state = fields.Selection(
+        [('draft', 'Draft'),
+        ('submit', 'Pending HOD Approval'),
+        ('maintenance_approve', 'Pending Maintenance Approval'),
+        ('approve', 'Completed'),
+        ('rejected', 'Rejected')],
+        string='Status', default='draft', tracking=True, copy=False)
 
     @api.model_create_multi
     def create(self, vals):

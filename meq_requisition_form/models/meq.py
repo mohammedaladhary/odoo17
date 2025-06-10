@@ -41,11 +41,12 @@ class MeqRequest(models.Model):
     dept_id = fields.Many2one('hr.department', 'Department', compute='_compute_department',store=True, readonly=True)
     staff_id = fields.Char('Employee ID', compute="_compute_department", store=True)
 
-    state = fields.Selection([('draft', 'Draft'), ('submit', 'Pending HOD Approval'),
-                            ('committee_approve', 'Pending Equipment Committee Approval'),
-                            ('store_approve', 'Pending Main Store Approval'), ('approve', 'Completed'),
-                            ('cancel', 'Cancel'), ('reject', 'Rejected')],
-                            string='Status', default='draft', tracking=True, copy=False)
+    state = fields.Selection(
+        [('draft', 'Draft'), ('submit', 'Pending HOD Approval'),
+        ('committee_approve', 'Pending Equipment Committee Approval'),
+        ('store_approve', 'Pending Main Store Approval'), ('approve', 'Completed'),
+        ('cancel', 'Cancel'), ('reject', 'Rejected')],
+        string='Status', default='draft', tracking=True, copy=False)
     committee_comment = fields.Text('Committee Comment', readonly=False, copy=False)
     committee_status = fields.Selection([('review', 'Under Review. Requested More Info.')], 'Committee Status')
 

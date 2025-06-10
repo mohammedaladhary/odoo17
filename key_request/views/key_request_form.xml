@@ -6,7 +6,8 @@
         <field name="arch" type="xml">
             <form string="Key Request">
                 <header>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approved,rejected"/>
+                    <field name="state" nolabel="1" readonly="1" widget="statusbar"
+                           statusbar_visible="draft,submit,maintenance_approve"/>
                     <button name="action_submit" string="Submit" type="object" class="btn-primary"
                             invisible="state != 'draft'"/>
                     <button name="action_approve" string="Approve" type="object" class="btn-success"
@@ -17,14 +18,14 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="req_by"/>
+                            <field name="req_by" widget="badge"/>
                             <field name="staff_id"/>
                             <field name="request_type" widget="radio"/>
                         </group>
                         <group>
                             <field name="request_date"/>
-                            <field name="position"/>
-                            <field name="dept_id"/>
+                            <field name="position" widget="badge"/>
+                            <field name="dept_id" widget="badge"/>
                             <field name="contact"/>
                         </group>
                     </group>

@@ -1,5 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_key_request_admin,access_key_request_admin,model_key_request,base.group_system,1,1,1,1
 access_key_request_user,access_key_request_user,model_key_request,base.group_user,1,1,1,0
-access_key_request,key.request,model_key_request,,1,1,1,1
-access_key_request_line,key.request.line,model_key_request_line,,1,1,1,1
+access_key_request_hod,access_key_request_hod,model_key_request,key_request.group_key_hod,1,1,1,1
+access_key_request_maintenance,access_key_request_maintenance,model_key_request,key_request.group_key_maintenance,1,1,1,1
+
+access_key_request_line_admin,access_key_request_line_admin,model_key_request_line,base.group_system,1,1,1,1
+access_key_request_line_user,access_key_request_line_user,model_key_request_line,base.group_user,1,1,1,0
+access_key_request_line_hod,access_key_request_line_hod,model_key_request_line,key_request.group_key_hod,1,1,1,1
+access_key_request_line_maintenance,access_key_request_line_maintenance,model_key_request_line,key_request.group_key_maintenance,1,1,1,1
