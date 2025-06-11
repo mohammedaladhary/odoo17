@@ -112,3 +112,17 @@ class KeyRequestLine(models.Model):
                 )
                 vals['sequence'] = last_line.sequence + 1 if last_line else 1
         return super().create(vals_list)
+
+    @api.model
+    def fields_get(self, allfields=None, attributes=None):
+        res = super(KeyRequestLine, self).fields_get(allfields, attributes)
+        user = self.env.user
+
+        if not (user.has_group('key_request.group_key_hod')
+                or user.has_group('key_request.group_key_maintenance')):
+            for field in [
+                'level', 'zone', 'room_no']:
+                if field in res:
+                    res[field]['readonly'] = True
+
+        return res
