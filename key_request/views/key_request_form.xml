@@ -7,13 +7,29 @@
             <form string="Key Request">
                 <header>
                     <field name="state" nolabel="1" readonly="1" widget="statusbar"
-                           statusbar_visible="draft,submit,maintenance_approve"/>
-                    <button name="action_submit" string="Submit" type="object" class="btn-primary"
-                            invisible="state != 'draft'"/>
-                    <button name="action_approve" string="Approve" type="object" class="btn-success"
-                            invisible="state != 'submit'"/>
-                    <button name="action_reject" string="Reject" type="object" class="btn-danger"
-                            invisible="state != 'submit'"/>
+                           statusbar_visible="draft,submit,maintenance_approve,approve"/>
+
+                    <button invisible="state != 'draft'" name="submit" string="Submit" type="object"/>
+
+                    <button class="oe_highlight" groups="key_request.group_key_hod"
+                            invisible="state != 'submit'" name="hod_approve" string="Approve" type="object"/>
+                    <button groups="key_request.group_key_hod"
+                            invisible="state != 'submit'" name="reset_to_draft" string="Reset to Draft" type="object"/>
+
+                    <button class="oe_highlight" groups="key_request.group_key_maintenance"
+                            invisible="state != 'maintenance_approve'" name="maintenance_approve" string="Approve" type="object"/>
+                    <button groups="key_request.group_key_maintenance"
+                            invisible="state != 'maintenance_approve'" name="reset_to_hod" string="Reset To HOD" type="object"/>
+
+                    <button confirm="Are you sure you want to reject?" name="reject" string="Reject" type="object"
+                            groups="key_request.group_key_hod"
+                            invisible="state not in ['submit']"/>
+
+                    <button confirm="Are you sure you want to reject?" name="reject" string="Reject" type="object"
+                            groups="key_request.group_key_maintenance"
+                            invisible="state not in ['maintenance_approve']"/>
+
+                    <button invisible="state != 'draft'" name="cancel" string="Cancel" type="object"/>
                 </header>
                 <sheet>
                     <group>
@@ -57,7 +73,7 @@
         <field name="model">key.request</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="req_by"/>
+                <field name="name"/>
                 <field name="request_date"/>
                 <field name="request_type"/>
                 <field name="state"/>

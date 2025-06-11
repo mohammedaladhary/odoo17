@@ -32,8 +32,7 @@ class KeyRequest(models.Model):
         [('draft', 'Draft'),
         ('submit', 'Pending HOD Approval'),
         ('maintenance_approve', 'Pending Maintenance Approval'),
-        ('approve', 'Completed'),
-        ('rejected', 'Rejected')],
+        ('approve', 'Completed'),('reject', 'Rejected'),('cancel', 'Cancel')],
         string='Status', default='draft', tracking=True, copy=False)
 
     @api.model_create_multi
@@ -42,21 +41,29 @@ class KeyRequest(models.Model):
             val['name'] = _('New')
         return super(KeyRequest, self).create(vals)
 
-    def action_submit(self):
+    def submit(self):
             if self.req_by != self.env.user:
                 raise UserError(_('only %s can submit this request') % self.req_by.name)
             self.state = 'submit'
             self.name = self.env['ir.sequence'].next_by_code('key.request') or _('New')
 
-    def action_approve(self):
-        for rec in self:
-            rec.state = 'approved'
-            rec.message_post(body=_("Key Request approved."))
+    def hod_approve(self):
+        self.state = 'maintenance_approve'
 
-    def action_reject(self):
-        for rec in self:
-            rec.state = 'rejected'
-            rec.message_post(body=_("Key Request rejected."))
+    def maintenance_approve(self):
+        self.state = 'approve'
+
+    def reset_to_hod(self):
+        self.state = 'submit'
+
+    def reset_to_draft(self):
+        self.state = 'draft'
+
+    def reject(self):
+        self.state = 'reject'
+
+    def cancel(self):
+        self.state = 'cancel'
 
     @api.depends('req_by')
     def _compute_staff_id(self):
