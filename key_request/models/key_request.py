@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools.translate import _
 
 
@@ -105,12 +105,17 @@ class KeyRequestLine(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if not vals.get('sequence') and vals.get('request_id'):
-                last_line = self.search(
-                    [('request_id', '=', vals['request_id'])],
-                    order='sequence desc', limit=1
-                )
-                vals['sequence'] = last_line.sequence + 1 if last_line else 1
+            request_id = vals.get('request_id')
+            if request_id:
+                request = self.env['key.request'].browse(request_id)
+                if request.state != 'draft':
+                    raise ValidationError("You can only add keys when the request is in draft state.")
+                if not vals.get('sequence'):
+                    last_line = self.search(
+                        [('request_id', '=', request_id)],
+                        order='sequence desc', limit=1
+                    )
+                    vals['sequence'] = last_line.sequence + 1 if last_line else 1
         return super().create(vals_list)
 
     @api.model
@@ -118,7 +123,7 @@ class KeyRequestLine(models.Model):
         res = super(KeyRequestLine, self).fields_get(allfields, attributes)
         user = self.env.user
 
-        if not (user.has_group('key_request.group_key_hod')
+        if (user.has_group('key_request.group_key_hod')
                 or user.has_group('key_request.group_key_maintenance')):
             for field in [
                 'level', 'zone', 'room_no']:
