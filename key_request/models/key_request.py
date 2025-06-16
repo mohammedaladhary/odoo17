@@ -47,6 +47,13 @@ class KeyRequest(models.Model):
             self.state = 'submit'
             self.name = self.env['ir.sequence'].next_by_code('key.request') or _('New')
 
+    def write(self, vals):
+        if 'request_type' in vals:
+            for record in self:
+                if record.state != 'draft':
+                    raise ValidationError("You cannot change the request type after submission.")
+        return super().write(vals)
+
     def hod_approve(self):
         self.state = 'maintenance_approve'
 
@@ -118,16 +125,10 @@ class KeyRequestLine(models.Model):
                     vals['sequence'] = last_line.sequence + 1 if last_line else 1
         return super().create(vals_list)
 
-    @api.model
-    def fields_get(self, allfields=None, attributes=None):
-        res = super(KeyRequestLine, self).fields_get(allfields, attributes)
-        user = self.env.user
-
-        if (user.has_group('key_request.group_key_hod')
-                or user.has_group('key_request.group_key_maintenance')):
-            for field in [
-                'level', 'zone', 'room_no']:
-                if field in res:
-                    res[field]['readonly'] = True
-
-        return res
+    def write(self, vals):
+        restricted_fields = {'level', 'zone', 'room_no'}
+        if restricted_fields.intersection(vals):
+            for line in self:
+                if line.request_id.state != 'draft':
+                    raise ValidationError("You cannot modify room, zone, or level after the request is submitted.")
+        return super().write(vals)
