@@ -16,24 +16,25 @@ class KeyRequest(models.Model):
     ], string="Type of Request", required=True, tracking=True)
     name = fields.Char('Name')
 
-    req_by = fields.Many2one('res.users', string='Requested By', default=lambda self: self.env.user, readonly=True)
-    staff_id = fields.Char(string="Staff ID no.", compute='_compute_staff_id', store=True, readonly=True)
-    position = fields.Many2one('hr.job',string="Position/Title", compute='_compute_position', store=True, readonly=True)
-    dept_id = fields.Many2one('hr.department', string='Department', compute='_compute_department', store=True, readonly=True)
-    contact = fields.Char(string='Contact No.', default=lambda self: self.env.user.phone, readonly=True)
+    req_by = fields.Many2one('res.users', string='Requested By:', default=lambda self: self.env.user, readonly=True)
+    staff_id = fields.Char(string="Staff ID no.:", compute='_compute_staff_id', store=True, readonly=True)
+    position = fields.Many2one('hr.job',string="Position/Title:", compute='_compute_position', store=True, readonly=True)
+    dept_id = fields.Many2one('hr.department', string='Department:', compute='_compute_department', store=True, readonly=True)
+    contact = fields.Char(string='Contact No.:', default=lambda self: self.env.user.phone, readonly=True)
 
-    key_line_ids = fields.One2many('key.request.line', 'request_id', string="Requested Keys")
-
-    employee_signature = fields.Char(string="Employee Signature")
-    hod_name = fields.Char(string="Head of Department")
-    hod_signature = fields.Char(string="HOD Signature")
+    key_line_ids = fields.One2many('key.request.line', 'request_id', string="Requested Keys:")
 
     state = fields.Selection(
         [('draft', 'Draft'),
         ('submit', 'Pending HOD Approval'),
         ('maintenance_approve', 'Pending Maintenance Approval'),
         ('approve', 'Completed'),('reject', 'Rejected'),('cancel', 'Cancel')],
-        string='Status', default='draft', tracking=True, copy=False)
+        string='Status:', default='draft', tracking=True, copy=False)
+
+    eng_rev_by = fields.Many2one('hr.employee',string="Reviewed by Engineer:")
+    eng_signature = fields.Char(string="Engineer Signature:")
+    hod_signature = fields.Char(string="HOD Signature:")
+    payment_approved_stamped_by = fields.Char(string="Payment Approved and Stamped by (Only for Lost Key Request):")
 
     @api.model_create_multi
     def create(self, vals):
@@ -95,35 +96,15 @@ from odoo import models, fields, api
 class KeyRequestLine(models.Model):
     _name = 'key.request.line'
     _description = 'Key Request Line'
-    _order = 'sequence'
 
-    sequence = fields.Integer(string="#", readonly=True)
     request_id = fields.Many2one('key.request', string="Request", required=True, ondelete='cascade')
     level = fields.Char(string="Level")
     zone = fields.Char(string="Zone")
     room_no = fields.Char(string="Room no.")
 
-    @api.onchange('request_id')
-    def _onchange_request_id(self):
-        if self.request_id:
-            existing_lines = self.request_id.key_line_ids
-            self.sequence = len(existing_lines)
-
     @api.model_create_multi
     def create(self, vals_list):
-        for vals in vals_list:
-            request_id = vals.get('request_id')
-            if request_id:
-                request = self.env['key.request'].browse(request_id)
-                if request.state != 'draft':
-                    raise ValidationError("You can only add keys when the request is in draft state.")
-                if not vals.get('sequence'):
-                    last_line = self.search(
-                        [('request_id', '=', request_id)],
-                        order='sequence desc', limit=1
-                    )
-                    vals['sequence'] = last_line.sequence + 1 if last_line else 1
-        return super().create(vals_list)
+        return super(KeyRequestLine, self).create(vals_list)
 
     def write(self, vals):
         restricted_fields = {'level', 'zone', 'room_no'}
