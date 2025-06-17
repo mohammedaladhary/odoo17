@@ -176,7 +176,6 @@
         <record id="action_meq_request_hod" model="ir.actions.act_window">
             <field name="name">Pending HOD Approval</field>
             <field name="res_model">meq.request</field>
-
             <field name="view_mode">tree,form</field>
             <field name="domain">[('state', '=', 'submit')]</field>
         </record>
@@ -184,7 +183,6 @@
         <record id="action_meq_request_committee" model="ir.actions.act_window">
             <field name="name">Pending Committee Approval</field>
             <field name="res_model">meq.request</field>
-
             <field name="view_mode">tree,form</field>
             <field name="domain">[('state', '=', 'committee_approve')]</field>
         </record>
@@ -192,7 +190,6 @@
         <record id="action_meq_request_store" model="ir.actions.act_window">
             <field name="name">Pending Store Approval</field>
             <field name="res_model">meq.request</field>
-
             <field name="view_mode">tree,form</field>
             <field name="domain">[('state', '=', 'store_approve')]</field>
         </record>

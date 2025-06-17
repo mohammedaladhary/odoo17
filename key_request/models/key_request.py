@@ -13,8 +13,14 @@ class KeyRequest(models.Model):
         ('key_request', 'Key Request'),
         ('lost_key', 'Lost Key Request'),
         ('key_return', 'Key Return')
-    ], string="Type of Request", required=True, tracking=True)
+    ], string="Type of Request", required=True)
+
     name = fields.Char('Name')
+    form_type = fields.Selection([
+        ('master', 'Master Key(s)'),
+        ('locker', 'Locker Key(s)'),
+        ('door', 'Door Key(s)')
+    ], string="Form Type", required=True)
 
     req_by = fields.Many2one('res.users', string='Requested By:', default=lambda self: self.env.user, readonly=True)
     staff_id = fields.Char(string="Staff ID no.:", compute='_compute_staff_id', store=True, readonly=True)
@@ -47,13 +53,6 @@ class KeyRequest(models.Model):
                 raise UserError(_('only %s can submit this request') % self.req_by.name)
             self.state = 'submit'
             self.name = self.env['ir.sequence'].next_by_code('key.request') or _('New')
-
-    def write(self, vals):
-        if 'request_type' in vals:
-            for record in self:
-                if record.state != 'draft':
-                    raise ValidationError("You cannot change the request type after submission.")
-        return super().write(vals)
 
     def hod_approve(self):
         self.state = 'maintenance_approve'
@@ -91,7 +90,22 @@ class KeyRequest(models.Model):
             employee = rec.req_by.employee_ids[:1]
             rec.dept_id = employee.department_id
 
-from odoo import models, fields, api
+    # @api.model
+    # def fields_get(self, allfields=None, attributes=None):
+    #     res = super(KeyRequest, self).fields_get(allfields, attributes)
+    #     user = self.env.user
+    #
+    #     if not (
+    #             user.has_group('key_request.group_key_hod') and
+    #             user.has_group('key_request.group_key_maintenance') and not
+    #             user._is_admin()):
+    #
+    #         for field in [
+    #             'eng_rev_by', 'hod_signature', 'eng_signature', 'payment_approved_stamped_by']:
+    #             if field in res:
+    #                 res[field]['readonly'] = True
+    #
+    #     return res
 
 class KeyRequestLine(models.Model):
     _name = 'key.request.line'
