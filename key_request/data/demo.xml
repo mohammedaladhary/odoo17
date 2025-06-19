@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="user1" model="res.users">
+        <field name="name">User 1</field>
+        <field name="email">user1</field>
+        <field name="password">user1</field>
+        <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="demo_key_request_1" model="key.request">
+        <field name="name">Demo Key Request</field>
+        <field name="form_type">locker</field>
+        <field name="request_type">key_request</field>
+        <field name="user_id" ref="user1"/>
+    </record>
+
+    <record id="demo_key_line_1" model="key.request.line">
+        <field name="request_id" ref="demo_key_request_1"/>
+        <field name="level">G</field>
+        <field name="zone">A</field>
+        <field name="room_no">101</field>
+    </record>
+
+    <record id="demo_key_line_2" model="key.request.line">
+        <field name="request_id" ref="demo_key_request_1"/>
+        <field name="level">1</field>
+        <field name="zone">B</field>
+        <field name="room_no">102</field>
+    </record>
+
+    <record id="demo_key_line_3" model="key.request.line">
+        <field name="request_id" ref="demo_key_request_1"/>
+        <field name="level">2</field>
+        <field name="zone">C</field>
+        <field name="room_no">201</field>
+    </record>
+
+    <record id="demo_key_line_4" model="key.request.line">
+        <field name="request_id" ref="demo_key_request_1"/>
+        <field name="level">3</field>
+        <field name="zone">D</field>
+        <field name="room_no">301</field>
+    </record>
+</odoo>

@@ -14,7 +14,11 @@
         'security/ir.model.access.csv',
 
         # data
+        # 'data/demo.xml',
+        # 'data/key_request_demo.csv',
+        # 'data/key_request_line_demo.csv',
         'data/key_request_sequence.xml',
+
         # views
         'views/key_request_form.xml',
         'views/key_request_menu.xml',
