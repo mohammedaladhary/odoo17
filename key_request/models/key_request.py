@@ -117,14 +117,8 @@ class KeyRequestLine(models.Model):
     zone = fields.Char(string="Zone")
     room_no = fields.Char(string="Room no.")
 
+    state = fields.Selection(related='request_id.state', store=True)
+
     @api.model_create_multi
     def create(self, vals_list):
         return super(KeyRequestLine, self).create(vals_list)
-
-    def write(self, vals):
-        restricted_fields = {'level', 'zone', 'room_no'}
-        if restricted_fields.intersection(vals):
-            for line in self:
-                if line.request_id.state != 'draft':
-                    raise ValidationError("You cannot modify room, zone, or level after the request is submitted.")
-        return super().write(vals)
