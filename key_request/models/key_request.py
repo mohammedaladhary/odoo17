@@ -37,7 +37,7 @@ class KeyRequest(models.Model):
         ('approve', 'Completed'),('reject', 'Rejected'),('cancel', 'Cancel')],
         string='Status:', default='draft', tracking=True, copy=False)
 
-    eng_rev_by = fields.Many2one('hr.employee',string="Reviewed by Engineer:")
+    eng_rev_by = fields.Many2one('hr.employee',string="Reviewed by Engineer:", required=True)
     eng_signature = fields.Char(string="Engineer Signature:")
     hod_signature = fields.Char(string="HOD Signature:")
     payment_approved_stamped_by = fields.Char(string="Payment Approved and Stamped by (Only for Lost Key Request):")
@@ -90,22 +90,23 @@ class KeyRequest(models.Model):
             employee = rec.req_by.employee_ids[:1]
             rec.dept_id = employee.department_id
 
-    # @api.model
-    # def fields_get(self, allfields=None, attributes=None):
-    #     res = super(KeyRequest, self).fields_get(allfields, attributes)
-    #     user = self.env.user
-    #
-    #     if not (
-    #             user.has_group('key_request.group_key_hod') and
-    #             user.has_group('key_request.group_key_maintenance') and not
-    #             user._is_admin()):
-    #
-    #         for field in [
-    #             'eng_rev_by', 'hod_signature', 'eng_signature', 'payment_approved_stamped_by']:
-    #             if field in res:
-    #                 res[field]['readonly'] = True
-    #
-    #     return res
+    @api.model
+    def fields_get(self, allfields=None, attributes=None):
+        res = super(KeyRequest, self).fields_get(allfields, attributes)
+        user = self.env.user
+
+        if not (user.has_group('key_request.group_key_hod') or
+                user.has_group('key_request.group_key_maintenance')):
+
+            readonly_fields = ['hod_signature', 'eng_signature', 'payment_approved_stamped_by']
+        else:
+            readonly_fields = ['eng_rev_by']
+
+        for field in readonly_fields:
+            if field in res:
+                res[field]['readonly'] = True
+
+        return res
 
 class KeyRequestLine(models.Model):
     _name = 'key.request.line'
