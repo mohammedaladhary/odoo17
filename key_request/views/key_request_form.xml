@@ -63,7 +63,7 @@
                                     <field name="eng_rev_by" readonly="state != 'draft'"/>
                                     <field name="eng_signature"/>
                                     <field name="hod_signature"/>
-                                    <field name="payment_approved_stamped_by"/>
+                                    <field name="payment_approved_stamped_by" invisible= "request_type != 'lost_key'"/>
                                 </group>
                             </page>
                         </notebook>

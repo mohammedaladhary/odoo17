@@ -9,11 +9,7 @@ class KeyRequest(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     request_date = fields.Datetime('Date of Request', default=fields.Datetime.now, readonly=True)
-    request_type = fields.Selection([
-        ('key_request', 'Key Request'),
-        ('lost_key', 'Lost Key Request'),
-        ('key_return', 'Key Return')
-    ], string="Type of Request", required=True)
+
 
     name = fields.Char('Name')
     form_type = fields.Selection([
@@ -40,7 +36,18 @@ class KeyRequest(models.Model):
     eng_rev_by = fields.Many2one('hr.employee',string="Reviewed by Engineer:", required=True)
     eng_signature = fields.Char(string="Engineer Signature:")
     hod_signature = fields.Char(string="HOD Signature:")
+
     payment_approved_stamped_by = fields.Char(string="Payment Approved and Stamped by (Only for Lost Key Request):")
+    request_type = fields.Selection([
+        ('key_request', 'Key Request'),
+        ('lost_key', 'Lost Key Request'),
+        ('key_return', 'Key Return')
+    ], string="Type of Request", required=True)
+
+    @api.onchange('request_type')
+    def _onchange_request_type(self):
+        if self.request_type != 'lost_key':
+            self.payment_approved_stamped_by = False
 
     @api.model_create_multi
     def create(self, vals):
