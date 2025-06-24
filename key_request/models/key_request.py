@@ -9,8 +9,6 @@ class KeyRequest(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     request_date = fields.Datetime('Date of Request', default=fields.Datetime.now, readonly=True)
-
-
     name = fields.Char('Name')
     form_type = fields.Selection([
         ('master', 'Master Key(s)'),
