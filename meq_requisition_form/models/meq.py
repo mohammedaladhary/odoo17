@@ -149,15 +149,16 @@ class MeqRequest(models.Model):
         res = super(MeqRequest, self).fields_get(allfields, attributes)
         user = self.env.user
 
-        if not (user.has_group(
-                'meq_requisition_form.group_meq_hod') and not user._is_admin()):
+        if user._is_admin():
+            return res
+
+        if not (user.has_group('meq_requisition_form.group_meq_hod')):
             for field in [
                 'hod_name', 'hod_date', 'hod_signature', 'hod_comment']:
                 if field in res:
                     res[field]['readonly'] = True
 
-        if not (user.has_group(
-                'meq_requisition_form.group_meq_committee') and not user._is_admin()):
+        if not (user.has_group('meq_requisition_form.group_meq_committee')):
             for field in [
                 'submitted_to_committee', 'committee_status', 'committee_comment']:
                 if field in res:
