@@ -100,6 +100,9 @@ class KeyRequest(models.Model):
         res = super(KeyRequest, self).fields_get(allfields, attributes)
         user = self.env.user
 
+        if user._is_admin():
+            return res
+
         if not (user.has_group('key_request.group_key_hod') or
                 user.has_group('key_request.group_key_maintenance')):
 
