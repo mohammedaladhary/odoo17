@@ -106,9 +106,9 @@ class KeyRequest(models.Model):
         if not (user.has_group('key_request.group_key_hod') or
                 user.has_group('key_request.group_key_maintenance')):
 
-            readonly_fields = ['hod_signature', 'eng_signature', 'payment_approved_stamped_by']
+            readonly_fields = ['hod_signature', 'payment_approved_stamped_by']
         else:
-            readonly_fields = ['eng_rev_by']
+            readonly_fields = ['eng_rev_by', 'eng_signature']
 
         for field in readonly_fields:
             if field in res:

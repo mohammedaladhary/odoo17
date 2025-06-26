@@ -6,7 +6,7 @@
         <field name="type">ir.actions.act_window</field>
     </record>
     <menuitem id="menu_key_request_root" name="Key Request" action="action_key_request" sequence="4">
-        <menuitem id="menu_key_form_request" name="New Form Request">
+        <menuitem id="menu_key_form_request" name="New Key Request">
             <menuitem id="menu_key_master" name="Master Key(s)" action="action_key_request_master"/>
             <menuitem id="menu_key_locker" name="Locker Key(s)" action="action_key_request_locker"/>
             <menuitem id="menu_key_door" name="Door Key(s)" action="action_key_request_door"/>
