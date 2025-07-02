@@ -31,7 +31,7 @@ class KeyRequest(models.Model):
         ('approve', 'Completed'),('reject', 'Rejected'),('cancel', 'Cancel')],
         string='Status:', default='draft', tracking=True, copy=False)
 
-    eng_rev_by = fields.Many2one('hr.employee',string="Reviewed by Engineer:", required=True)
+    eng_rev_by = fields.Many2one('res.users',string="Reviewed by Engineer:", required=True)
     eng_signature = fields.Char(string="Engineer Signature:")
     hod_signature = fields.Char(string="HOD Signature:")
 
@@ -124,7 +124,6 @@ class KeyRequestLine(models.Model):
     level = fields.Char(string="Level")
     zone = fields.Char(string="Zone")
     room_no = fields.Char(string="Room no.")
-
     state = fields.Selection(related='request_id.state', store=True)
 
     @api.model_create_multi

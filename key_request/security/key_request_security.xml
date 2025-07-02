@@ -23,6 +23,7 @@
     </record>
 
     <record id="key_hod_rule" model="ir.rule">
+<!--        instead, you can use parent.id as Manager acts as HOD-->
         <field name="name">MEQ Request HOD</field>
         <field name="model_id" ref="key_request.model_key_request"/>
         <field name="domain_force">[(1, '=', 1)]</field>
