@@ -86,7 +86,7 @@
             <field name="name">key.request.tree</field>
             <field name="model">key.request</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree string="Key Request">
                     <field name="name"/>
                     <field name="request_date"/>
                     <field name="form_type"/>

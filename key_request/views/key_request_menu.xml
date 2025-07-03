@@ -4,6 +4,7 @@
         <field name="res_model">key.request</field>
         <field name="view_mode">tree,form</field>
         <field name="type">ir.actions.act_window</field>
+        <field name="context">{'create': False}</field>
     </record>
     <menuitem id="menu_key_request_root" name="Key Request" action="action_key_request" sequence="4">
         <menuitem id="menu_key_form_request" name="New Key Request">
