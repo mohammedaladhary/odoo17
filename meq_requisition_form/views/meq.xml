@@ -156,11 +156,10 @@
                         <button name="equipment_xlsx_report" type="object" string="Print Excel Report" class="btn-primary"/>
 					</header>
                     <field name="name"/>
+                    <field name="req_by" groups="base.group_system,meq_requisition_form.group_meq_hod,
+                    meq_requisition_form.group_meq_committee,meq_requisition_form.group_meq_store"/>
                     <field name="dept_id" options='{"no_open": True}'/>
-
                     <field name="request_date"/>
-                    <field name="req_by"/>
-
                     <field name="state"/>
                     <field name="committee_status" string="Comment"/>
                 </tree>

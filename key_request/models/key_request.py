@@ -16,7 +16,7 @@ class KeyRequest(models.Model):
         ('door', 'Door Key(s)')
     ], string="Form Type", required=True)
 
-    req_by = fields.Many2one('res.users', string='Requested By:', default=lambda self: self.env.user, readonly=True)
+    req_by = fields.Many2one('res.users', string='Requested By', default=lambda self: self.env.user, readonly=True)
     staff_id = fields.Char(string="Staff ID no.:", compute='_compute_staff_id', store=True, readonly=True)
     position = fields.Many2one('hr.job',string="Position/Title:", compute='_compute_position', store=True, readonly=True)
     dept_id = fields.Many2one('hr.department', string='Department:', compute='_compute_department', store=True, readonly=True)

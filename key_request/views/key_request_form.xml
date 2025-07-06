@@ -88,6 +88,8 @@
             <field name="arch" type="xml">
                 <tree string="Key Request">
                     <field name="name"/>
+                    <field name="req_by" groups="base.group_system,key_request.group_key_hod,
+                    key_request.group_key_maintenance"/>
                     <field name="request_date"/>
                     <field name="form_type"/>
                     <field name="request_type"/>
