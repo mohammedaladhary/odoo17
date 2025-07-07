@@ -17,10 +17,10 @@ class KeyRequest(models.Model):
     ], string="Form Type", required=True)
 
     req_by = fields.Many2one('res.users', string='Requested By', default=lambda self: self.env.user, readonly=True)
-    staff_id = fields.Char(string="Staff ID no.:", compute='_compute_staff_id', store=True, readonly=True)
+    staff_id = fields.Char(string="Staff ID no.", compute='_compute_staff_id', store=True, readonly=True)
     position = fields.Many2one('hr.job',string="Position/Title:", compute='_compute_position', store=True, readonly=True)
     dept_id = fields.Many2one('hr.department', string='Department:', compute='_compute_department', store=True, readonly=True)
-    contact = fields.Char(string='Contact No.:', default=lambda self: self.env.user.phone, readonly=True)
+    contact = fields.Char(string='Contact No.', default=lambda self: self.env.user.phone, readonly=True)
 
     key_line_ids = fields.One2many('key.request.line', 'request_id', string="Requested Keys:")
 
@@ -29,11 +29,11 @@ class KeyRequest(models.Model):
         ('submit', 'Pending HOD Approval'),
         ('maintenance_approve', 'Pending Maintenance Approval'),
         ('approve', 'Completed'),('reject', 'Rejected'),('cancel', 'Cancel')],
-        string='Status:', default='draft', tracking=True, copy=False)
+        string='Status', default='draft', tracking=True, copy=False)
 
-    eng_rev_by = fields.Many2one('hr.employee',string="Reviewed by Engineer:", required=True)
-    eng_signature = fields.Char(string="Engineer Signature:")
-    hod_signature = fields.Char(string="HOD Signature:")
+    eng_rev_by = fields.Many2one('hr.employee',string="Reviewed by Engineer", required=True)
+    eng_signature = fields.Char(string="Engineer Signature")
+    hod_signature = fields.Char(string="HOD Signature")
 
     payment_approved_stamped_by = fields.Char(string="Payment Approved and Stamped by (Only for Lost Key Request):")
     request_type = fields.Selection([
@@ -115,6 +115,18 @@ class KeyRequest(models.Model):
                 res[field]['readonly'] = True
 
         return res
+
+    show_eng_rev_by = fields.Boolean(compute="_compute_show_eng_rev_by")
+
+    @api.depends_context('uid')
+    def _compute_show_eng_rev_by(self):
+        user = self.env.user
+        for rec in self:
+            rec.show_eng_rev_by = not (
+                user.has_group('key_request.group_key_hod') or
+                user.has_group('key_request.group_key_maintenance') or
+                user._is_admin()
+            )
 
 class KeyRequestLine(models.Model):
     _name = 'key.request.line'

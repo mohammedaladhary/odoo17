@@ -92,7 +92,7 @@
                     <field name="request_date"/>
                     <field name="form_type"/>
                     <field name="request_type"/>
-                    <field name="eng_rev_by" readonly="state != 'draft'" groups="base.group_user"/>
+                    <field name="eng_rev_by" groups="base.group_user" readonly="state != 'draft'"/>
                     <field name="state"/>
                 </tree>
             </field>
