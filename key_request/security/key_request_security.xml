@@ -5,13 +5,6 @@
         <field name="sequence">5</field>
     </record>
 
-<!--    <odoo>-->
-<!--        <record id="group_key_user" model="res.groups">-->
-<!--            <field name="name">User</field>-->
-<!--            <field name="category_id" ref="key_request.category_key_access"/>-->
-<!--        </record>-->
-<!--    </odoo>-->
-
    <record id="group_key_hod" model="res.groups">
        <field name="name">KEY HOD</field>
        <field name="category_id" ref="key_request.category_key_access"/>

@@ -101,7 +101,7 @@
         <record id="action_key_request_master" model="ir.actions.act_window">
             <field name="name">Master Key(s)</field>
             <field name="res_model">key.request</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">form</field>
             <field name="domain">[('form_type', '=', 'master')]</field>
             <field name="context">{'default_form_type': 'master'}</field>
         </record>
@@ -109,7 +109,7 @@
         <record id="action_key_request_locker" model="ir.actions.act_window">
             <field name="name">Locker Key(s)</field>
             <field name="res_model">key.request</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">form</field>
             <field name="domain">[('form_type', '=', 'locker')]</field>
             <field name="context">{'default_form_type': 'locker'}</field>
         </record>
@@ -117,7 +117,7 @@
         <record id="action_key_request_door" model="ir.actions.act_window">
             <field name="name">Door Key(s)</field>
             <field name="res_model">key.request</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">form</field>
             <field name="domain">[('form_type', '=', 'door')]</field>
             <field name="context">{'default_form_type': 'door'}</field>
         </record>
